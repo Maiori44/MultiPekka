@@ -2,10 +2,6 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#define OPTION_SETUP -666713357
-#define OPTION_START -1730724660
-#define OPTION_INFO -237985200
-#define OPTION_EXIT -248500869
 
 char asciitolower(char in) {
 	if (in <= 'Z' && in >= 'A')
