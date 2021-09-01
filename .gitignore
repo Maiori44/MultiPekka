@@ -1,2 +1,10 @@
 main.exe
 PekkaZipper.path
+bz2.dll
+zip.dll
+zlib1.dll
+bz2.lib
+zip.lib
+zlib1.lib
+main.exe
+jorma possu.zip
