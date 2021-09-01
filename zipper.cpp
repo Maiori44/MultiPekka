@@ -58,7 +58,7 @@ std::string pkread(int offset, int stopbyte, int length, FILE *file) {
 	}
 	return result;
 }
-
+/*
 bool episodeiterator(std::string filename, FILE *file) {
 	if (filename.find(".map") != filename.npos) {
 		//get the map tileset
@@ -69,9 +69,9 @@ bool episodeiterator(std::string filename, FILE *file) {
 		printf("%s", test.c_str());
 	}
 	return true;
-}
+}*/
 
-/*
+
 bool episodeiterator(std::string filename, FILE *file) {
 	if (filename.find(".map") != filename.npos) {
 		//get the map tileset
@@ -80,7 +80,7 @@ bool episodeiterator(std::string filename, FILE *file) {
 		printf("%s", test.c_str());
 	}
 	return true;
-}*/
+}
 
 int startzipper() {
 	//get episode name
