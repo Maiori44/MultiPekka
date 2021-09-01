@@ -1,7 +1,9 @@
 #include <stdint.h>
 #include <iostream>
-#include <string>
 #include <algorithm>
+#include <dirent.h>
+#include <sys/stat.h>
+
 std::string path;
 
 char asciitolower(char in) {
