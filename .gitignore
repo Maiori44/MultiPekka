@@ -5,6 +5,6 @@ zip.dll
 zlib1.dll
 bz2.lib
 zip.lib
-zlib1.lib
+zlib.lib
 main.exe
 jorma possu.zip
