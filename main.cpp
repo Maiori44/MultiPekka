@@ -14,7 +14,7 @@ FILE *pathfile;
 int main() {
 	pathfile = fopen("PekkaZipper.path", "r+");
 	if (!pathfile) {
-		printf("This seems to be your first time using this program\nI need to ask you something before we continue\n");
+		printf("This seems to be your first time using this program\n");
 		goto setup;
 	}
 	{
@@ -34,9 +34,7 @@ int main() {
 		switch(intaction) {
 			case COMMAND_SETUP: {
 				setup:
-				printf("Insert path to your Pekka Kana 2 folder:\n\n");
-				std::string newpath;
-				std::getline(std::cin >> std::ws, newpath);
+				std::string newpath = getfullinput(pathfile ? "Insert the path to your Pekka Kana 2 folder:\n(or type \"cancel\" to cancel this opertion)" : "Insert the path to your Pekka Kana 2 folder:");
 				if (pathfile && newpath == "cancel") break;
 				path = newpath;
 				pathfile = fopen("PekkaZipper.path", "w+");
@@ -48,7 +46,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				printf("PekkaZipper Version 2 Indev\n"
+				printf("PekkaZipper Version 3 Indev\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
 				system("pause");
