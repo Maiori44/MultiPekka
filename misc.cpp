@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+std::string path;
 
 char asciitolower(char in) {
 	if (in <= 'Z' && in >= 'A')

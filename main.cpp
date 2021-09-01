@@ -9,7 +9,6 @@
 #define COMMAND_EXIT -248500869
 
 int intaction;
-std::string path;
 bool closeprogram = false;
 FILE *pathfile;
 
