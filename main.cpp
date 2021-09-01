@@ -9,8 +9,8 @@
 #define COMMAND_EXIT -248500869
 
 int intaction;
-bool close = false;
 std::string path;
+bool closeprogram = false;
 FILE *pathfile;
 
 int main() {
@@ -57,7 +57,7 @@ int main() {
 				break;
 			}
 			case COMMAND_EXIT: {
-				close = true;
+				closeprogram = true;
 				break;
 			}
 		}
