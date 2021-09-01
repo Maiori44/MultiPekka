@@ -25,7 +25,7 @@ int main() {
 		path = oldpath;
 	}
 	fclose(pathfile);
-	while (!close) {
+	while (!closeprogram) {
 		system("cls");
 		printf("Select command:\n"
 		       "setup - change the PK2 path\n"
