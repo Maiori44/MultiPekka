@@ -28,8 +28,10 @@ int main() {
 		printf("Select command:\n"
 		       "setup - change the PK2 path\n"
 		       "start - create an episode .zip\n"
-		       "info - show basic information about the program\n"
-		       "exit - close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
+		       "setup - Change the PK2 path\n"
+		       "start - Create an episode .zip\n"
+		       "info - Show basic information about the program\n"
+		       "exit - Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
 		intaction = getinput();
 		switch(intaction) {
 			case COMMAND_SETUP: {
@@ -43,25 +45,17 @@ int main() {
 				break;
 			}
 			case COMMAND_START: {
-				switch(startzipper()) {
-					case ERROR_NOEPISODEFOLDER: {
-						senderror("The episode folder was not found", ERROR_NOEPISODEFOLDER);
-						break;
-					}
-					case ERROR_CANTCREATEZIP: {
-						senderror("Failed to create the .zip file", ERROR_CANTCREATEZIP);
-						break;
-					}
-					default: {
-						printf("The episode was successfully zipped\n");
-						break;
-					}
+				try {
+					startzipper();
+				} catch (error newerror) {
+					printf("\nAn error accoured!\nError: %s\nError code: %d\n", newerror.msg, newerror.code);
+					if (episodezip != NULL) zip_discard(episodezip);
 				}
 				system("pause");
 				break;
 			}
 			case COMMAND_INFO: {
-				printf("PekkaZipper Version 3 Indev\n"
+				printf("PekkaZipper Version 4 Indev\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
 				system("pause");
