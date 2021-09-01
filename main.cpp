@@ -26,8 +26,6 @@ int main() {
 	while (!closeprogram) {
 		system("cls");
 		printf("Select command:\n"
-		       "setup - change the PK2 path\n"
-		       "start - create an episode .zip\n"
 		       "setup - Change the PK2 path\n"
 		       "start - Create an episode .zip\n"
 		       "info - Show basic information about the program\n"

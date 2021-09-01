@@ -1,10 +1,15 @@
+#include <algorithm>
 #include <stdint.h>
 #include <iostream>
-#include <algorithm>
-#include <dirent.h>
-#include <sys/stat.h>
+#define CHOICE_YES -1926432
+#define CHOICE_NO -14561
 
 std::string path;
+
+struct error {
+  int code;
+  const char *msg;
+};
 
 char asciitolower(char in) {
 	if (in <= 'Z' && in >= 'A')
@@ -32,15 +37,4 @@ std::string getfullinput(const char *toprint) {
 	std::string inputstring;
 	std::getline(std::cin >> std::ws, inputstring);
 	return inputstring;
-}
-
-void senderror(const char* errormsg, int errornum) {
-	printf("An error accoured!\nError: %s\nError code: %d\n", errormsg, errornum);
-}
-
-void iteratefiles(DIR *directory, void (*f)(char *)) {
-	struct dirent *entry;
-	while((entry=readdir(directory))) {
-		(*f)(entry->d_name);
-	}
 }
