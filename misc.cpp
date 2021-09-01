@@ -24,3 +24,21 @@ int getinput() {
 	transform(action.begin(), action.end(), action.begin(), asciitolower);
 	return hash(action.c_str());
 }
+
+std::string getfullinput(const char *toprint) {
+	printf("%s\n\n", toprint);
+	std::string inputstring;
+	std::getline(std::cin >> std::ws, inputstring);
+	return inputstring;
+}
+
+void senderror(const char* errormsg, int errornum) {
+	printf("An error accoured!\nError: %s\nError code: %d\n", errormsg, errornum);
+}
+
+void iteratefiles(DIR *directory, void (*f)(char *)) {
+	struct dirent *entry;
+	while((entry=readdir(directory))) {
+		(*f)(entry->d_name);
+	}
+}
