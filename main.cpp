@@ -53,7 +53,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				printf("PekkaZipper Version 4 Indev\n"
+				printf("PekkaZipper Version 5 Indev\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
 				system("pause");

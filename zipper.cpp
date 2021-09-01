@@ -6,6 +6,11 @@
 #define ERROR_ABORTDUEOVERWRITE 3
 
 zip_t *episodezip;
+std::unordered_set<std::string> tilesets;
+std::unordered_set<std::string> bgs;
+std::unordered_set<std::string> music;
+std::unordered_set<std::string> sprites;
+std::unordered_set<std::string> sprofspr;
 
 void throwerror(const char* errormsg, int errorcode) {
 	error newerror;
@@ -14,7 +19,7 @@ void throwerror(const char* errormsg, int errorcode) {
 	throw newerror;
 }
 
-void iteratefiles(const char *zipdirpath, const char *directorypath, bool (*iterator)(char *, FILE *)) {
+void iteratefiles(const char *zipdirpath, const char *directorypath, bool (*iterator)(std::string, FILE *)) {
 	printf("\nOpening folder %s...\n", directorypath);
 	DIR *directory = opendir(directorypath);
 	if (directory == NULL) {
@@ -31,7 +36,7 @@ void iteratefiles(const char *zipdirpath, const char *directorypath, bool (*iter
 		filepath.append(entry->d_name);
 		FILE *file = fopen(filepath.c_str(), "rb");
 		if (file != NULL) {
-			bool check = (*iterator)(entry->d_name, file);
+			bool check = (*iterator)(std::string(entry->d_name), file);
 			if (check) {
 				zip_source_t *source = zip_source_file(episodezip, filepath.c_str(), 0, 0);
 				std::string zipfilepath = zipdirpath;
@@ -43,9 +48,39 @@ void iteratefiles(const char *zipdirpath, const char *directorypath, bool (*iter
 	}
 }
 
-bool episodeiterator(char *filename, FILE *file) {
+std::string pkread(int offset, int stopbyte, int length, FILE *file) {
+	fseek(file, offset, SEEK_CUR);
+	std::string result;
+	for(int i = 1; i <= length; i++) {
+		int byte = fgetc(file);
+		if (byte == stopbyte) break;
+		char ctr = static_cast<char>(byte);
+	}
+	return result;
+}
+
+bool episodeiterator(std::string filename, FILE *file) {
+	if (filename.find(".map") != filename.npos) {
+		//get the map tileset
+		std::string test;
+		test.append(&((const char)fgetc(file));
+		test.append(&((const char)fgetc(file));
+		test.append(&((const char)fgetc(file));
+		printf("%s", test.c_str());
+	}
 	return true;
 }
+
+/*
+bool episodeiterator(std::string filename, FILE *file) {
+	if (filename.find(".map") != filename.npos) {
+		//get the map tileset
+		std::string test;
+		
+		printf("%s", test.c_str());
+	}
+	return true;
+}*/
 
 int startzipper() {
 	//get episode name
