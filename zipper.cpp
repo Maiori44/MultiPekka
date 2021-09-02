@@ -1,16 +1,14 @@
 #include <dirent.h>
+#include <sys/stat.h>
 #include <unordered_set>
 #include <zip.h>
 #define ERROR_FOLDERNOTFOUND 1
 #define ERROR_CANTCREATEZIP 2
 #define ERROR_ABORTDUEOVERWRITE 3
+#define ERROR_FILENOTFOUND 4
 
 zip_t *episodezip;
-std::unordered_set<std::string> tilesets;
-std::unordered_set<std::string> bgs;
-std::unordered_set<std::string> music;
 std::unordered_set<std::string> sprites;
-std::unordered_set<std::string> sprofspr;
 
 void throwerror(const char* errormsg, int errorcode) {
 	error newerror;
@@ -19,70 +17,49 @@ void throwerror(const char* errormsg, int errorcode) {
 	throw newerror;
 }
 
-void iteratefiles(const char *zipdirpath, const char *directorypath, bool (*iterator)(std::string, FILE *)) {
-	printf("\nOpening folder %s...\n", directorypath);
-	DIR *directory = opendir(directorypath);
-	if (directory == NULL) {
-			std::string errormsg;
-			errormsg.append("No folder \"");
-			errormsg.append(directorypath);
-			errormsg.append("\" was found");
-			throwerror(errormsg.c_str(), ERROR_FOLDERNOTFOUND);
-	}
-	struct dirent *entry;
-	while((entry=readdir(directory))) {
-		std::string filepath = directorypath;
-		filepath.append("/");
-		filepath.append(entry->d_name);
-		FILE *file = fopen(filepath.c_str(), "rb");
-		if (file != NULL) {
-			bool check = (*iterator)(std::string(entry->d_name), file);
-			if (check) {
-				zip_source_t *source = zip_source_file(episodezip, filepath.c_str(), 0, 0);
-				std::string zipfilepath = zipdirpath;
-				zipfilepath.append(entry->d_name);
-				zip_file_add(episodezip, zipfilepath.c_str(), source, 0);
-				printf("Added file \"%s\" inside zip directory \"%s\"\n", entry->d_name, zipdirpath);
-			}
-		}
-	}
-}
-
-std::string pkread(int offset, int stopbyte, int length, FILE *file) {
-	fseek(file, offset, SEEK_CUR);
+std::string pkread(int offset, int origin, int stopbyte, FILE *file) {
+	fseek(file, offset, origin);
 	std::string result;
-	for(int i = 1; i <= length; i++) {
+	for(int i = 1; i <= 12; i++) { //it seems that every filename found in files doesn't use more than 12 characters, not including the \0 at the end
 		int byte = fgetc(file);
 		if (byte == stopbyte) break;
-		char ctr = static_cast<char>(byte);
+		char crt[2];
+		sprintf(crt, "%c", byte);
+		result.append(crt);
 	}
 	return result;
 }
-/*
-bool episodeiterator(std::string filename, FILE *file) {
-	if (filename.find(".map") != filename.npos) {
-		//get the map tileset
-		std::string test;
-		test.append(&((const char)fgetc(file));
-		test.append(&((const char)fgetc(file));
-		test.append(&((const char)fgetc(file));
-		printf("%s", test.c_str());
+
+/*void insertonce(std::unordered_set<std::string> *set, std::string element) {
+	if (set->find(element) == set->end()) {
+		set->insert(element);
+		printf("Memorized filename \"%s\" for later use [%d]\n", element.c_str(), set->size());
 	}
-	return true;
 }*/
 
+void addpkfile(std::string zippath, const char *filepath, const char *filename) {
+	zip_source_t *source = zip_source_file(episodezip, filepath, 0, 0);
+	std::string zipfilepath = zippath;
+	zipfilepath.append(filepath);
+	zip_file_add(episodezip, zipfilepath.c_str(), source, 0);
+	printf("Added file \"%s\" inside zip directory \"%s\"\n", filename, zippath.c_str());
+}
 
-bool episodeiterator(std::string filename, FILE *file) {
-	if (filename.find(".map") != filename.npos) {
-		//get the map tileset
-		std::string test;
-		
-		printf("%s", test.c_str());
+DIR *openpkdir(const char * path) {
+	DIR *directory = opendir(path);
+	if (directory == NULL) {
+		std::string errormsg;
+		errormsg.append("The folder \"");
+		errormsg.append(path);
+		errormsg.append("\" was not found");
+		throwerror(errormsg.c_str(), ERROR_FOLDERNOTFOUND);
 	}
-	return true;
+	return directory;
 }
 
 int startzipper() {
+	//reset the sprites set
+	sprites.clear();
 	//get episode name
 	std::string episodename = getfullinput("Insert episode name:");
 	//create zip file
@@ -99,13 +76,14 @@ int startzipper() {
 				overwritechoice:
 				int choice = getinput();
 				switch(choice) {
-					case CHOICE_YES: break;
+					case CHOICE_YES:
+						break;
 					case CHOICE_NO: {
-						throwerror("Intentially aborted to avoid overwrite", ERROR_ABORTDUEOVERWRITE);
+						throwerror("Intentionally aborted to avoid overwrite", ERROR_ABORTDUEOVERWRITE);
 						break;
 					}
 					default: {
-						printf("Invalid choice, valid: YES/NO\n");
+						printf("Invalid choice, valid choices are YES or NO\n");
 						goto overwritechoice;
 						break;
 					}
@@ -126,18 +104,41 @@ int startzipper() {
 	std::string zipepisodepath = "episodes/";
 	zipepisodepath.append(episodename);
 	zip_dir_add(episodezip, zipepisodepath.c_str(), 0);
-	//add map files and get other files' names from them
+	//add the files from the map files
 	{
-		//get episode path
+		//get paths
 		std::string episodepath;
 		episodepath.append(path);
 		episodepath.append("/episodes/");
 		episodepath.append(episodename);
-		//iterate in the directory
 		zipepisodepath.append("/");
-		iteratefiles(zipepisodepath.c_str(), episodepath.c_str(), episodeiterator);
+		//open the episode directory
+		DIR *episodedir = openpkdir(episodepath.c_str());
+		struct dirent *entry;
+		struct stat filestat;
+		//iterate trough all the files
+		while((entry = readdir(episodedir))) {
+			stat(entry->d_name, &filestat);
+        	if(!S_ISDIR(filestat.st_mode)) {
+        		std::string filepath = episodepath.c_str();
+				filepath.append("/");
+				filepath.append(entry->d_name);
+        		FILE *mapfile = fopen(filepath.c_str(), "rb");
+        		if (mapfile == NULL) continue;
+        		std::string filename = entry->d_name;
+        		if (filename.find(".map") != filename.npos) {
+					/*//get and insert all files this map uses
+					insertonce(&tilesets, pkread(5, SEEK_SET, 0, file));
+					insertonce(&bgs, pkread(18, SEEK_SET, 0, file));*/
+				}
+				fclose(mapfile);
+				//add the file to the zip
+				addpkfile(zipepisodepath, filepath.c_str(), entry->d_name);
+			}
+		}
+		closedir(episodedir);
 	}
-	//close the zip
+	//save the zip
 	zip_close(episodezip);
 	return 0;
 }
