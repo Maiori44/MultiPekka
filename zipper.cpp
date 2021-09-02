@@ -40,10 +40,12 @@ std::string pkread(int offset, int origin, int stopbyte, FILE *file) {
 void addpkfile(std::string zippath, const char *filepath, const char *filename) {
 	zip_source_t *source = zip_source_file(episodezip, filepath, 0, 0);
 	std::string zipfilepath = zippath;
-	zipfilepath.append(filepath);
+	zipfilepath.append(filename);
 	zip_file_add(episodezip, zipfilepath.c_str(), source, 0);
 	printf("Added file \"%s\" inside zip directory \"%s\"\n", filename, zippath.c_str());
 }
+
+void //FUNCTION TO GET FILE FROM EPISODE FOLDER AS WELL
 
 DIR *openpkdir(const char * path) {
 	DIR *directory = opendir(path);
@@ -127,9 +129,13 @@ int startzipper() {
         		if (mapfile == NULL) continue;
         		std::string filename = entry->d_name;
         		if (filename.find(".map") != filename.npos) {
-					/*//get and insert all files this map uses
-					insertonce(&tilesets, pkread(5, SEEK_SET, 0, file));
-					insertonce(&bgs, pkread(18, SEEK_SET, 0, file));*/
+					//get and insert all files this map uses
+					std::string tilesetname = pkread(5, SEEK_SET, 0, mapfile);
+					addpkfile("gfx/tiles/", std::string(path + "/gfx/tiles/" + tilesetname).c_str(), tilesetname.c_str());
+					std::string bgname = pkread(18, SEEK_SET, 0, mapfile);
+					addpkfile("gfx/scenery/", std::string(path + "/gfx/scenery/" + bgname).c_str(), bgname.c_str());
+					std::string musicname = pkread(31, SEEK_SET, 0, mapfile);
+					addpkfile("music/", std::string(path + "music/" + musicname).c_str(), musicname.c_str());
 				}
 				fclose(mapfile);
 				//add the file to the zip
@@ -139,6 +145,8 @@ int startzipper() {
 		closedir(episodedir);
 	}
 	//save the zip
+	printf("Saving the zip file, please wait...\n");
 	zip_close(episodezip);
+	printf("Successfully saved the zip, ");
 	return 0;
 }
