@@ -53,7 +53,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				printf("PekkaZipper Version 6 Indev\n"
+				printf("PekkaZipper Version 7 Indev\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
 				system("pause");
@@ -64,7 +64,7 @@ int main() {
 				break;
 			}
 			case COMMAND_DEBUG: {
-				printf("zip_t *: %d\n", episodezip);
+				printf("zip_t *: %x\n", episodezip);
 				printf("Loaded sprites names:\n");
 				for (auto i = begin(sprites); i != end(sprites); ++i) { 
     				printf("\"%s\"\n", (*i).c_str());

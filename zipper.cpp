@@ -2,6 +2,7 @@
 #include <sys/stat.h>
 #include <unordered_set>
 #include <zip.h>
+#include <unistd.h>
 #define ERROR_FOLDERNOTFOUND 1
 #define ERROR_CANTCREATEZIP 2
 #define ERROR_ABORTDUEOVERWRITE 3
@@ -10,6 +11,11 @@
 zip_t *episodezip;
 std::unordered_set<std::string> sprites;
 
+struct paths {
+	std::string pk;
+	std::string zip;
+};
+
 void throwerror(const char* errormsg, int errorcode) {
 	error newerror;
 	newerror.code = errorcode;
@@ -17,12 +23,12 @@ void throwerror(const char* errormsg, int errorcode) {
 	throw newerror;
 }
 
-std::string pkread(int offset, int origin, int stopbyte, FILE *file) {
+std::string pkread(int offset, int origin, int length, FILE *file) {
 	fseek(file, offset, origin);
 	std::string result;
-	for(int i = 1; i <= 12; i++) { //it seems that every filename found in files doesn't use more than 12 characters, not including the \0 at the end
+	for(int i = 1; i <= length; i++) {
 		int byte = fgetc(file);
-		if (byte == stopbyte) break;
+		if (byte == 0) break;
 		char crt[2];
 		sprintf(crt, "%c", byte);
 		result.append(crt);
@@ -37,17 +43,27 @@ std::string pkread(int offset, int origin, int stopbyte, FILE *file) {
 	}
 }*/
 
-void addpkfile(std::string zippath, const char *filepath, const char *filename) {
+bool addpkfile(const char *zippath, const char *filepath, const char *filename) {
+	if (access(filepath, F_OK) != 0) return false;
 	zip_source_t *source = zip_source_file(episodezip, filepath, 0, 0);
 	std::string zipfilepath = zippath;
 	zipfilepath.append(filename);
 	zip_file_add(episodezip, zipfilepath.c_str(), source, 0);
-	printf("Added file \"%s\" inside zip directory \"%s\"\n", filename, zippath.c_str());
+	printf("Added file \"%s\" inside zip directory \"%s\"\n", filename, zippath);
+	return true;
 }
 
-void //FUNCTION TO GET FILE FROM EPISODE FOLDER AS WELL
+void findandadd(std::string filename, paths episodepath, const char *normalpath) {
+	std::string episodefilepath;
+	episodefilepath.append(episodepath.pk);
+	episodefilepath.append("/");
+	episodefilepath.append(filename);
+	if (!addpkfile(episodepath.zip.c_str(), episodefilepath.c_str(), filename.c_str()) && !addpkfile(normalpath, std::string(path + "/" + normalpath + filename).c_str(), filename.c_str())) {
+		throwerror(std::string("The file \"" + filename + "\" was not found").c_str(), ERROR_FILENOTFOUND);
+	}
+}
 
-DIR *openpkdir(const char * path) {
+DIR *openpkdir(const char *path) {
 	DIR *directory = opendir(path);
 	if (directory == NULL) {
 		std::string errormsg;
@@ -66,7 +82,7 @@ int startzipper() {
 	std::string episodename = getfullinput("Insert episode name:");
 	//create zip file
 	{
-		printf("\nCreating zip file...");
+		printf("\nCreating zip file...\n");
 		std::string zippath = episodename;
 		zippath.append(".zip");
 		//check if a zip with this name already exists
@@ -106,40 +122,46 @@ int startzipper() {
 	std::string zipepisodepath = "episodes/";
 	zipepisodepath.append(episodename);
 	zip_dir_add(episodezip, zipepisodepath.c_str(), 0);
-	//add the files from the map files
+	//get important paths
+	paths episodepath;
 	{
-		//get paths
-		std::string episodepath;
-		episodepath.append(path);
-		episodepath.append("/episodes/");
-		episodepath.append(episodename);
+		std::string pkepisodepath;
+		pkepisodepath.append(path);
+		pkepisodepath.append("/episodes/");
+		pkepisodepath.append(episodename);
+		episodepath.pk = pkepisodepath;
 		zipepisodepath.append("/");
+		episodepath.zip = zipepisodepath;
+	}
+	//MAP LOOP - add the files for and from the .map files, and memorize the .spr files for the sprite loop
+	{
+		printf("Entering Map Loop...\n");
 		//open the episode directory
-		DIR *episodedir = openpkdir(episodepath.c_str());
+		DIR *episodedir = openpkdir(episodepath.pk.c_str());
 		struct dirent *entry;
 		struct stat filestat;
 		//iterate trough all the files
 		while((entry = readdir(episodedir))) {
 			stat(entry->d_name, &filestat);
         	if(!S_ISDIR(filestat.st_mode)) {
-        		std::string filepath = episodepath.c_str();
+        		std::string filepath = episodepath.pk;
 				filepath.append("/");
 				filepath.append(entry->d_name);
         		FILE *mapfile = fopen(filepath.c_str(), "rb");
         		if (mapfile == NULL) continue;
         		std::string filename = entry->d_name;
         		if (filename.find(".map") != filename.npos) {
-					//get and insert all files this map uses
-					std::string tilesetname = pkread(5, SEEK_SET, 0, mapfile);
-					addpkfile("gfx/tiles/", std::string(path + "/gfx/tiles/" + tilesetname).c_str(), tilesetname.c_str());
-					std::string bgname = pkread(18, SEEK_SET, 0, mapfile);
-					addpkfile("gfx/scenery/", std::string(path + "/gfx/scenery/" + bgname).c_str(), bgname.c_str());
-					std::string musicname = pkread(31, SEEK_SET, 0, mapfile);
-					addpkfile("music/", std::string(path + "music/" + musicname).c_str(), musicname.c_str());
+					//get and insert the map tileset, bg and music
+					findandadd(pkread(0x5, SEEK_SET, 12, mapfile), episodepath, "gfx/tiles/");
+					findandadd(pkread(0x12, SEEK_SET, 12, mapfile), episodepath, "gfx/scenery/");
+					findandadd(pkread(0x1f, SEEK_SET, 12, mapfile), episodepath, "music/");
+					//get the amount of .spr files this map uses
+					int numsprites = std::stoi(pkread(0xDC, SEEK_SET, 8, mapfile))
+					//if ()
 				}
 				fclose(mapfile);
 				//add the file to the zip
-				addpkfile(zipepisodepath, filepath.c_str(), entry->d_name);
+				addpkfile(episodepath.zip.c_str(), filepath.c_str(), entry->d_name);
 			}
 		}
 		closedir(episodedir);
