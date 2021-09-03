@@ -36,12 +36,12 @@ std::string pkread(int offset, int length, FILE *file) {
 	return result;
 }
 
-/*void insertonce(std::unordered_set<std::string> *set, std::string element) {
-	if (set->find(element) == set->end()) {
-		set->insert(element);
-		printf("Memorized filename \"%s\" for later use [%d]\n", element.c_str(), set->size());
+void memorizespr(std::string element) {
+	if (sprites.find(element) == sprites.end()) {
+		sprites.insert(element);
+		printf("Memorized filename \"%s\" for later use [%d]\n", element.c_str(), sprites.size());
 	}
-}*/
+}
 
 bool addpkfile(const char *zippath, const char *filepath, const char *filename) {
 	if (access(filepath, F_OK) != 0) return false;
@@ -155,9 +155,13 @@ int startzipper() {
 					findandadd(pkread(0x5, 12, mapfile), episodepath, "gfx/tiles/");
 					findandadd(pkread(0x12, 12, mapfile), episodepath, "gfx/scenery/");
 					findandadd(pkread(0x1f, 12, mapfile), episodepath, "music/");
-					//get the amount of .spr files this map uses
-					int numsprites = std::stoi(pkread(0xDC, SEEK_SET, 8, mapfile))
-					//if ()
+					//get and memorize the .spr files this map uses
+					int numsprites = std::stoi(pkread(0xDC, 8, mapfile));
+					if (numsprites > 0) {
+						for(int i = 0; i < numsprites; i++) {
+							memorizespr(pkread(0xE4 + (13 * i), 12, mapfile));
+						}
+					}
 				}
 				fclose(mapfile);
 				//add the file to the zip
@@ -166,6 +170,7 @@ int startzipper() {
 		}
 		closedir(episodedir);
 	}
+	//SPRITE LOOP - iterate trough the sprites set, find their file, memorize the sprites they use, and add the sprite to the zip
 	//save the zip
 	printf("Saving the zip file, please wait...\n");
 	zip_close(episodezip);
