@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string>
+#include <time.h>
 #include "misc.cpp"
 #include "zipper.cpp"
 #define COMMAND_SETUP -666713357
@@ -7,15 +8,20 @@
 #define COMMAND_INFO -237985200
 #define COMMAND_EXIT -248500869
 #define COMMAND_DEBUG 1740352334
+#define COMMAND_LOG -1731409
 
 int intaction;
 bool closeprogram = false;
 FILE *pathfile;
 
 int main() {
+	if (tmplog == NULL) {
+		printf("Unable to create temporary log file, the \"log\" command will not work\n");
+		system("pause");
+	}
 	pathfile = fopen("PekkaZipper.path", "r+");
 	if (!pathfile) {
-		printf("This seems to be your first time using this program\n");
+		consolelog("This seems to be your first time using this program\n");
 		goto setup;
 	}
 	{
@@ -26,11 +32,12 @@ int main() {
 	fclose(pathfile);
 	while (!closeprogram) {
 		system("cls");
-		printf("Select command:\n"
+		consolelog("Select command:\n"
 		       "setup - Change the PK2 path\n"
 		       "start - Create an episode .zip\n"
-		       "info - Show basic information about the program\n"
-		       "exit - Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
+		       "log   - Save a .txt of all previous events\n"
+		       "info  - Show basic information about the program\n"
+		       "exit  - Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
 		intaction = getinput();
 		switch(intaction) {
 			case COMMAND_SETUP: {
@@ -47,13 +54,33 @@ int main() {
 				try {
 					startzipper();
 				} catch (error newerror) {
-					printf("\nAn error accoured!\nError: %s\nError code: %d\n", newerror.msg, newerror.code);
+					consolelog("\nAn error accoured!\nError: %s\nError code: %d\n", newerror.msg, newerror.code);
+				}
+				system("pause");
+				break;
+			}
+			case COMMAND_LOG: {
+				time_t t = time(NULL);
+				time(&t);
+				struct tm *ct = localtime(&t);
+				std::string logname = "Pekka Zipper log " +
+				std::to_string(ct->tm_mday) + " " +
+				std::to_string(ct->tm_mon + 1) + " " +
+				std::to_string(ct->tm_hour) + " " +
+				std::to_string(ct->tm_min) + " " +
+				std::to_string(ct->tm_sec) + ".txt";
+				FILE *logfile = fopen(logname.c_str(), "w+");
+				if (logfile == NULL) {
+					consolelog("Something went wrong when creating the file..try again?\n");
+				} else {
+					fprintf(logfile, "%s", pkread(0, 2147483647, tmplog).c_str());
+					fclose(logfile);
 				}
 				system("pause");
 				break;
 			}
 			case COMMAND_INFO: {
-				printf("PekkaZipper Version 7 Indev\n"
+				consolelog("PekkaZipper Version 8 Indev\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
 				system("pause");
@@ -64,16 +91,18 @@ int main() {
 				break;
 			}
 			case COMMAND_DEBUG: {
-				printf("zip_t *: %x\n", episodezip);
-				printf("Loaded sprites names:\n");
-				for (auto i = begin(sprites); i != end(sprites); ++i) { 
-    				printf("\"%s\"\n", (*i).c_str());
+				consolelog("zip_t *: %x\n", episodezip);
+				consolelog("sprites in queue:\n");
+				for (auto i = begin(sprqueue); i != end(sprqueue); ++i) { 
+    				consolelog("\"%s\"\n", (*i).c_str());
 				}
 				system("pause");
 				break;
 			}
 		}
-		printf("\n");
+		consolelog("\n");
 	}
+	fclose(tmplog);
+	remove("templog");
 	return 0;
 }
