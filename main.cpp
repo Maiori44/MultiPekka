@@ -75,12 +75,13 @@ int main() {
 				} else {
 					fprintf(logfile, "%s", pkread(0, 2147483647, tmplog).c_str());
 					fclose(logfile);
+					consolelog("Saved log as \"%s\"\n", logname.c_str());
 				}
 				system("pause");
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("PekkaZipper Version 8 Indev\n"
+				consolelog("PekkaZipper Version 8 Release Candidate\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
 				system("pause");
