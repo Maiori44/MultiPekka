@@ -23,8 +23,8 @@ void throwerror(const char* errormsg, int errorcode) {
 	throw newerror;
 }
 
-std::string pkread(int offset, int origin, int length, FILE *file) {
-	fseek(file, offset, origin);
+std::string pkread(int offset, int length, FILE *file) {
+	fseek(file, offset, SEEK_SET);
 	std::string result;
 	for(int i = 1; i <= length; i++) {
 		int byte = fgetc(file);
@@ -152,9 +152,9 @@ int startzipper() {
         		std::string filename = entry->d_name;
         		if (filename.find(".map") != filename.npos) {
 					//get and insert the map tileset, bg and music
-					findandadd(pkread(0x5, SEEK_SET, 12, mapfile), episodepath, "gfx/tiles/");
-					findandadd(pkread(0x12, SEEK_SET, 12, mapfile), episodepath, "gfx/scenery/");
-					findandadd(pkread(0x1f, SEEK_SET, 12, mapfile), episodepath, "music/");
+					findandadd(pkread(0x5, 12, mapfile), episodepath, "gfx/tiles/");
+					findandadd(pkread(0x12, 12, mapfile), episodepath, "gfx/scenery/");
+					findandadd(pkread(0x1f, 12, mapfile), episodepath, "music/");
 					//get the amount of .spr files this map uses
 					int numsprites = std::stoi(pkread(0xDC, SEEK_SET, 8, mapfile))
 					//if ()
