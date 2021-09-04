@@ -7,5 +7,6 @@ Current features:
 
 Planned features/improvments:
 + faster packaging (if possible)
++ display the time the packager took to finish a .zip
 + dezipper, basically the opposite of what packaging does
 + improved "debugging"
