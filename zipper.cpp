@@ -179,7 +179,7 @@ int startzipper() {
 	}
 	//SPRITE LOOP - iterate trough the memorized sprites' names, find their file, get the sprites they need and, them to the queue and insert the current sprite
 	{
-		consolelog("Entering Sprite loop...\n");
+		consolelog("Entering Sprite loop...\n\n");
 		//get important paths
 		paths spritepath;
 		spritepath.pk.append(path);
