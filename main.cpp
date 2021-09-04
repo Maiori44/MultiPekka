@@ -97,6 +97,10 @@ int main() {
 				for (auto i = begin(sprqueue); i != end(sprqueue); ++i) { 
     				consolelog("\"%s\"\n", (*i).c_str());
 				}
+				consolelog("saved sprites:\n");
+				for (auto i = begin(addedsprites); i != end(addedsprites); ++i) { 
+    				consolelog("\"%d\"\n", (*i));
+				}
 				system("pause");
 				break;
 			}
