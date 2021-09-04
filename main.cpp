@@ -15,6 +15,7 @@ bool closeprogram = false;
 FILE *pathfile;
 
 int main() {
+	system("title Pekka Zipper");
 	if (tmplog == NULL) {
 		printf("Unable to create temporary log file, the \"log\" command will not work\n");
 		system("pause");
