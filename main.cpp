@@ -16,7 +16,7 @@ bool closeprogram = false;
 FILE *pathfile;
 
 int main() {
-	system("title Pekka Zipper");
+	system("title PekkaZipper");
 	remove("templog");
 	tmplog = fopen("templog", "w+");
 	if (tmplog == NULL) {
@@ -89,7 +89,7 @@ int main() {
 			case COMMAND_INFO: {
 				consolelog("PekkaZipper Version 9 1.0\n"
 				       "Created by Felix44\n"
-					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
+					   "Github: https://github.com/Felix-44/PekkaZipper\n\n");
 				system("pause");
 				break;
 			}
