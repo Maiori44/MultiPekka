@@ -87,7 +87,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("PekkaZipper Version 8 Release Candidate\n"
+				consolelog("PekkaZipper Version 9 1.0\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/Pekka-Zipper\n\n");
 				system("pause");
