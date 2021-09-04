@@ -7,7 +7,7 @@
 #define CHOICE_NO -14561
 
 std::string path;
-FILE *tmplog = fopen("templog", "w+");
+FILE *tmplog;
 
 void consolelog(const char *text, ...) {
 	va_list args;
@@ -35,7 +35,7 @@ uint64_t hash(const char * m) {
 	return (*m) ? mix(*m,hash(m+1)) : 0;
 }
 
-int getinput() {
+uint64_t getinput() {
 	std::string action;
 	std::cin >> action;
 	transform(action.begin(), action.end(), action.begin(), asciitolower);

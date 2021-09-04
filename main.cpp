@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string>
 #include <time.h>
+#include <windows.h>
 #include "misc.cpp"
 #include "zipper.cpp"
 #define COMMAND_SETUP -666713357
@@ -16,9 +17,13 @@ FILE *pathfile;
 
 int main() {
 	system("title Pekka Zipper");
+	remove("templog");
+	tmplog = fopen("templog", "w+");
 	if (tmplog == NULL) {
 		printf("Unable to create temporary log file, the \"log\" command will not work\n");
 		system("pause");
+	} else {
+		SetFileAttributes("templog", GetFileAttributes("templog") + FILE_ATTRIBUTE_HIDDEN);
 	}
 	pathfile = fopen("PekkaZipper.path", "r+");
 	if (!pathfile) {
