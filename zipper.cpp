@@ -13,7 +13,20 @@ zip_t *episodezip;
 std::unordered_set<std::string> sprqueue;
 std::unordered_set<int> addedsprites;
 std::string debugmsg;
-int progressbar, maxbar;
+//int progressbar, maxbar;
+
+/*void displaybar() {
+	const int currentprg = 100 * progressbar / maxbar;
+	printf("[");
+	for(int i = 1; i <= 20; i++)
+		printf("%s", i * 5 <= currentprg ? "#" : " ");
+	printf("] %d%% done\n", currentprg);
+}
+commented out because it slows down too much
+void updatebar() {
+	progressbar++;
+	displaybar();
+}*/
 
 struct paths {
 	std::string pk;
@@ -41,11 +54,16 @@ std::string pkread(int offset, int length, FILE *file) {
 }
 
 void memorizespr(std::string element) {
-	if (element == "" || addedsprites.find(hash(element.c_str())) != addedsprites.end()) return;
+	if (element == "" || addedsprites.find(hash(element.c_str())) != addedsprites.end() ){
+		//maxbar--;
+		return;	
+	}
 	if (sprqueue.find(element) == sprqueue.end()) {
 		sprqueue.insert(element);
 		addedsprites.insert(hash(element.c_str()));
+		//maxbar += 11;
 		consolelog("Memorized filename \"%s\" for later use [%d]\n", element.c_str(), sprqueue.size());
+		//displaybar();
 	}
 }
 
@@ -56,6 +74,7 @@ bool addpkfile(const char *zippath, const char *filepath, const char *filename) 
 	zipfilepath.append(filename);
 	zip_file_add(episodezip, zipfilepath.c_str(), source, 0);
 	consolelog("Added file \"%s\" inside zip directory \"%s\"\n", filename, zippath);
+	//updatebar();
 	return true;
 }
 
@@ -83,10 +102,9 @@ DIR *openpkdir(const char *path) {
 }
 
 int startzipper() {
-	clock_t start = clock();
-	//reset the progress bar
+	/*//reset the progress bar
 	progressbar = 0;
-	maxbar = 0;
+	maxbar = 3;*/
 	//reset the sprites sets
 	sprqueue.clear();
 	addedsprites.clear();
@@ -123,6 +141,7 @@ int startzipper() {
 		episodezip = zip_open(zippath.c_str(), ZIP_CREATE|ZIP_TRUNCATE, 0);
 		if (episodezip == NULL) throwerror("Failed to create the .zip file", ERROR_CANTCREATEZIP);
 	}
+	clock_t start = clock();
 	//create the folders
 	zip_dir_add(episodezip, "episodes", 0);
 	zip_dir_add(episodezip, "gfx", 0);
@@ -147,23 +166,26 @@ int startzipper() {
 	}
 	//MAP LOOP - add the files for and from the .map files, and memorize the .spr files for the sprite loop
 	{
-		consolelog("\nEntering Map Loop...\n\n");
+		consolelog("Entering Map Loop...\n");
+		//updatebar();
 		//open the episode directory
 		DIR *episodedir = openpkdir(episodepath.pk.c_str());
 		struct dirent *entry;
 		struct stat filestat;
 		//iterate trough all the files
-		while((entry = readdir(episodedir))) {
+		while ((entry = readdir(episodedir))) {
 			stat(entry->d_name, &filestat);
-        	if(!S_ISDIR(filestat.st_mode)) {
+        	if (!S_ISDIR(filestat.st_mode)) {
         		debugmsg = entry->d_name;
         		std::string filepath = episodepath.pk;
 				filepath.append("/");
 				filepath.append(entry->d_name);
         		FILE *mapfile = fopen(filepath.c_str(), "rb");
         		if (mapfile == NULL) continue;
+        		//maxbar++;
         		std::string filename = entry->d_name;
         		if (filename.find(".map") != filename.npos) {
+        			//maxbar += 3;
 					//get and insert the map tileset, bg and music
 					findandadd(pkread(0x5, 12, mapfile), episodepath, "gfx/tiles/");
 					findandadd(pkread(0x12, 12, mapfile), episodepath, "gfx/scenery/");
@@ -179,7 +201,6 @@ int startzipper() {
 				fclose(mapfile);
 				//add the file to the zip
 				addpkfile(episodepath.zip.c_str(), filepath.c_str(), entry->d_name);
-				consolelog("\n");
 			}
 		}
 		debugmsg = "";
@@ -187,7 +208,8 @@ int startzipper() {
 	}
 	//SPRITE LOOP - iterate trough the memorized sprites' names, find their file, get the sprites they need and, them to the queue and insert the current sprite
 	{
-		consolelog("Entering Sprite loop...\n\n");
+		consolelog("Entering Sprite loop...\n");
+		//updatebar();
 		//get important paths
 		paths spritepath;
 		spritepath.pk.append(path);
@@ -205,6 +227,7 @@ int startzipper() {
     			if (spritefile == NULL) {
     				spritefile = fopen(std::string(episodepath.pk + "/" + (*spritename)).c_str(), "rb");
     				if (spritefile == NULL) {
+    					debugmsg = "";
     					throwerror(std::string("Could not open the file \"" + (*spritename) + "\"").c_str(), ERROR_CANTOPENFILE);
 					}
 				}
@@ -222,12 +245,13 @@ int startzipper() {
 				memorizespr(pkread(0x5A8, 12, spritefile));
 				memorizespr(pkread(0x60C, 12, spritefile));
 				fclose(spritefile);
-				consolelog("\n");
 			}
 		}
 	}
 	//save the zip
+	
 	consolelog("Saving the zip file, please wait...\n");
+	//updatebar();
 	zip_close(episodezip);
 	consolelog("Successfully saved the zip\n");
 	consolelog("Process completed in %d seconds\n", (clock() - start) / CLOCKS_PER_SEC);
