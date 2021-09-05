@@ -101,12 +101,12 @@ int main() {
 			case COMMAND_DEBUG: {
 				consolelog("zip_t *: %x\n", episodezip);
 				consolelog("sprites in queue:\n");
-				for (auto i = begin(sprqueue); i != end(sprqueue); ++i) { 
-    				consolelog("\"%s\"\n", (*i).c_str());
+				for (auto spritename = begin(sprqueue); spritename != end(sprqueue); ++spritename) { 
+    				consolelog("\"%s\"\n", spritename->c_str());
 				}
 				consolelog("saved sprites:\n");
-				for (auto i = begin(addedsprites); i != end(addedsprites); ++i) { 
-    				consolelog("\"%d\"\n", (*i));
+				for (auto spritename = begin(addedsprites); spritename != end(addedsprites); ++spritename) { 
+    				consolelog("\"%s\"\n", *spritename);
 				}
 				system("pause");
 				break;
