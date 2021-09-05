@@ -13,6 +13,7 @@ zip_t *episodezip;
 std::unordered_set<std::string> sprqueue;
 std::unordered_set<int> addedsprites;
 std::string debugmsg;
+int progressbar, maxbar;
 
 struct paths {
 	std::string pk;
@@ -82,6 +83,10 @@ DIR *openpkdir(const char *path) {
 }
 
 int startzipper() {
+	clock_t start = clock();
+	//reset the progress bar
+	progressbar = 0;
+	maxbar = 0;
 	//reset the sprites sets
 	sprqueue.clear();
 	addedsprites.clear();
@@ -225,5 +230,6 @@ int startzipper() {
 	consolelog("Saving the zip file, please wait...\n");
 	zip_close(episodezip);
 	consolelog("Successfully saved the zip\n");
+	consolelog("Process completed in %d seconds\n", (clock() - start) / CLOCKS_PER_SEC);
 	return 0;
 }
