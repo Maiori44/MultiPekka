@@ -12,6 +12,7 @@
 zip_t *episodezip;
 std::unordered_set<std::string> sprqueue;
 std::unordered_set<int> addedsprites;
+std::string debugmsg;
 
 struct paths {
 	std::string pk;
@@ -150,6 +151,7 @@ int startzipper() {
 		while((entry = readdir(episodedir))) {
 			stat(entry->d_name, &filestat);
         	if(!S_ISDIR(filestat.st_mode)) {
+        		debugmsg = entry->d_name;
         		std::string filepath = episodepath.pk;
 				filepath.append("/");
 				filepath.append(entry->d_name);
@@ -175,6 +177,7 @@ int startzipper() {
 				consolelog("\n");
 			}
 		}
+		debugmsg = "";
 		closedir(episodedir);
 	}
 	//SPRITE LOOP - iterate trough the memorized sprites' names, find their file, get the sprites they need and, them to the queue and insert the current sprite
@@ -200,6 +203,7 @@ int startzipper() {
     					throwerror(std::string("Could not open the file \"" + (*spritename) + "\"").c_str(), ERROR_CANTOPENFILE);
 					}
 				}
+				debugmsg = *spritename;
 				//insert the sprite sounds and bitmap
 				findandadd(pkread(0x8, 12, spritefile), episodepath, spritepath.zip.c_str());
 				findandadd(pkread(0x6C, 12, spritefile), episodepath, spritepath.zip.c_str());

@@ -60,7 +60,8 @@ int main() {
 				try {
 					startzipper();
 				} catch (error newerror) {
-					consolelog("\nAn error accoured!\nError: %s\nError code: %d\n", newerror.msg, newerror.code);
+					consolelog("\nAn error accoured!\nError: %s\nError code: %d\n%s", newerror.msg, newerror.code,
+					debugmsg != "" ? std::string("File: " + debugmsg + " (this error seems to have been caused by this file, checking it might help you fix the issue)\n").c_str() : "");
 				}
 				system("pause");
 				break;
@@ -87,7 +88,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("PekkaZipper Version 9 1.0\n"
+				consolelog("PekkaZipper Version 10 1.1\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/PekkaZipper\n\n");
 				system("pause");
