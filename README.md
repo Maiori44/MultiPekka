@@ -6,8 +6,8 @@ Current features:
 + sorta of "debugger" for episodes with the log command (currently not much, improvments planned)
 
 Planned features/improvments:
-+ faster packaging (if possible)
++ faster packaging (if possible, probably not possible)
 + progress bar
-+ display the time the packager took to finish a .zip
++ display the time the packager took to finish a .zip [will be added in 1.1]
 + dezipper, basically the opposite of what packaging does
-+ improved "debugging"
++ improved "debugging" [will be added a bit in 1.1]
