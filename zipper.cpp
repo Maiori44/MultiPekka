@@ -40,19 +40,6 @@ void throwerror(const char* errormsg, int errorcode) {
 	throw newerror;
 }
 
-std::string pkread(int offset, int length, FILE *file) {
-	fseek(file, offset, SEEK_SET);
-	std::string result;
-	for(int i = 1; i <= length; i++) {
-		int byte = fgetc(file);
-		if (byte == 0 or byte == EOF) break;
-		char crt[2];
-		sprintf(crt, "%c", byte);
-		result.append(crt);
-	}
-	return result;
-}
-
 void memorizespr(std::string element) {
 	if (element == "" || addedsprites.find(hash(element.c_str())) != addedsprites.end() ){
 		//maxbar--;

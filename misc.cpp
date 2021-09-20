@@ -51,3 +51,16 @@ std::string getfullinput(const char *toprint) {
 	fprintf(tmplog, "%s\n", inputstring.c_str());
 	return inputstring;
 }
+
+std::string pkread(int offset, int length, FILE *file) {
+	fseek(file, offset, SEEK_SET);
+	std::string result;
+	for(int i = 1; i <= length; i++) {
+		int byte = fgetc(file);
+		if (byte == 0 or byte == EOF) break;
+		char crt[2];
+		sprintf(crt, "%c", byte);
+		result.append(crt);
+	}
+	return result;
+}
