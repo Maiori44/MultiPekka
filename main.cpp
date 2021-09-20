@@ -4,12 +4,14 @@
 #include <windows.h>
 #include "misc.cpp"
 #include "zipper.cpp"
+#include "sprites.cpp"
 #define COMMAND_SETUP -666713357
-#define COMMAND_START -1730724660
+#define COMMAND_ZIP -1877840
+#define COMMAND_SPRITES -468740822
+#define COMMAND_LOG -1731409
 #define COMMAND_INFO -237985200
 #define COMMAND_EXIT -248500869
 #define COMMAND_DEBUG 1740352334
-#define COMMAND_LOG -1731409
 
 int intaction;
 bool closeprogram = false;
@@ -39,11 +41,12 @@ int main() {
 	while (!closeprogram) {
 		system("cls");
 		consolelog("Select command:\n"
-		       "setup - Change the PK2 path\n"
-		       "start - Create an episode .zip\n"
-		       "log   - Save a .txt of all previous events\n"
-		       "info  - Show basic information about the program\n"
-		       "exit  - Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
+		       "setup\t- Change the PK2 path\n"
+		       "zip\t- Create an episode .zip\n"
+		       "sprites\t- Display all information about a .spr file\n"
+		       "log\t- Save a .txt of all previous events\n"
+		       "info\t- Show basic information about the program\n"
+		       "exit\t- Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
 		intaction = getinput();
 		switch(intaction) {
 			case COMMAND_SETUP: {
@@ -56,13 +59,18 @@ int main() {
 				fclose(pathfile);
 				break;
 			}
-			case COMMAND_START: {
+			case COMMAND_ZIP: {
 				try {
 					startzipper();
 				} catch (error newerror) {
 					consolelog("\nAn error accoured!\nError: %s\nError code: %d\n%s", newerror.msg, newerror.code,
 					debugmsg != "" ? std::string("File: " + debugmsg + " (this error seems to have been caused by this file, checking it might help you fix the issue)\n").c_str() : "");
 				}
+				system("pause");
+				break;
+			}
+			case COMMAND_SPRITES: {
+				startspriter();
 				system("pause");
 				break;
 			}
