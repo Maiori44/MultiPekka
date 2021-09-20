@@ -5,6 +5,11 @@
 #include <dirent.h>
 #define CHOICE_YES -1926432
 #define CHOICE_NO -14561
+#define ERROR_FOLDERNOTFOUND 1
+#define ERROR_CANTCREATEZIP 2
+#define ERROR_ABORTDUEOVERWRITE 3
+#define ERROR_FILENOTFOUND 4
+#define ERROR_CANTOPENFILE 5
 
 std::string path;
 FILE *tmplog;

@@ -2,11 +2,6 @@
 #include <unordered_set>
 #include <zip.h>
 #include <unistd.h>
-#define ERROR_FOLDERNOTFOUND 1
-#define ERROR_CANTCREATEZIP 2
-#define ERROR_ABORTDUEOVERWRITE 3
-#define ERROR_FILENOTFOUND 4
-#define ERROR_CANTOPENFILE 5
 
 zip_t *episodezip;
 std::unordered_set<std::string> sprqueue;
