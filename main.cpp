@@ -99,15 +99,7 @@ int main() {
 				break;
 			}
 			case COMMAND_DEBUG: {
-				consolelog("zip_t *: %x\n", episodezip);
-				consolelog("sprites in queue:\n");
-				for (auto spritename = begin(sprqueue); spritename != end(sprqueue); ++spritename) { 
-    				consolelog("\"%s\"\n", spritename->c_str());
-				}
-				consolelog("saved sprites:\n");
-				for (auto spritename = begin(addedsprites); spritename != end(addedsprites); ++spritename) { 
-    				consolelog("\"%s\"\n", *spritename);
-				}
+				printf("%d\n", getinput());
 				system("pause");
 				break;
 			}
