@@ -27,6 +27,13 @@ struct error {
   const char *msg;
 };
 
+void throwerror(const char* errormsg, int errorcode) {
+	error newerror;
+	newerror.code = errorcode;
+	newerror.msg = errormsg;
+	throw newerror;
+}
+
 char asciitolower(char in) {
 	if (in <= 'Z' && in >= 'A')
 		return in - ('Z' - 'z');

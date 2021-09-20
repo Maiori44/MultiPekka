@@ -27,13 +27,6 @@ struct paths {
 	std::string zip;
 };
 
-void throwerror(const char* errormsg, int errorcode) {
-	error newerror;
-	newerror.code = errorcode;
-	newerror.msg = errormsg;
-	throw newerror;
-}
-
 void memorizespr(std::string element) {
 	if (element == "" || addedsprites.find(hash(element.c_str())) != addedsprites.end() ){
 		//maxbar--;
