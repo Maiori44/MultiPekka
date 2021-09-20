@@ -193,6 +193,9 @@ void startzipper() {
     					throwerror(std::string("Could not open the file \"" + (*spritename) + "\"").c_str(), ERROR_CANTOPENFILE);
 					}
 				}
+				if (pkread(0x0, 3, spritefile) != "1.3") {
+					throwerror(std::string("The sprite \"" + (*spritename) + "\" uses an invalid sprite version (only version 1.3 is supported)").c_str(), ERROR_INVALIDSPRITEVERSION);
+				}
 				debugmsg = *spritename;
 				//insert the sprite sounds and bitmap
 				findandadd(pkread(0x8, 12, spritefile), episodepath, spritepath.zip.c_str());

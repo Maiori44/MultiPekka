@@ -71,7 +71,6 @@ int main() {
 			}
 			case COMMAND_SPRITES: {
 				startspriter();
-				system("pause");
 				break;
 			}
 			case COMMAND_LOG: {
