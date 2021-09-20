@@ -76,18 +76,6 @@ void findandadd(std::string filename, paths episodepath, const char *normalpath)
 	}
 }
 
-DIR *openpkdir(const char *path) {
-	DIR *directory = opendir(path);
-	if (directory == NULL) {
-		std::string errormsg;
-		errormsg.append("The folder \"");
-		errormsg.append(path);
-		errormsg.append("\" was not found");
-		throwerror(errormsg.c_str(), ERROR_FOLDERNOTFOUND);
-	}
-	return directory;
-}
-
 int startzipper() {
 	/*//reset the progress bar
 	progressbar = 0;

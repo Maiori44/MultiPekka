@@ -64,3 +64,15 @@ std::string pkread(int offset, int length, FILE *file) {
 	}
 	return result;
 }
+
+DIR *openpkdir(const char *path) {
+	DIR *directory = opendir(path);
+	if (directory == NULL) {
+		std::string errormsg;
+		errormsg.append("The folder \"");
+		errormsg.append(path);
+		errormsg.append("\" was not found");
+		throwerror(errormsg.c_str(), ERROR_FOLDERNOTFOUND);
+	}
+	return directory;
+}
