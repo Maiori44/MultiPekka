@@ -1,4 +1,3 @@
-#include <dirent.h>
 #include <sys/stat.h>
 #include <unordered_set>
 #include <zip.h>
