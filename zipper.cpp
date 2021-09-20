@@ -76,7 +76,7 @@ void findandadd(std::string filename, paths episodepath, const char *normalpath)
 	}
 }
 
-int startzipper() {
+void startzipper() {
 	/*//reset the progress bar
 	progressbar = 0;
 	maxbar = 3;*/
@@ -230,5 +230,4 @@ int startzipper() {
 	zip_close(episodezip);
 	consolelog("Successfully saved the zip\n");
 	consolelog("Process completed in %d seconds\n", (clock() - start) / CLOCKS_PER_SEC);
-	return 0;
 }
