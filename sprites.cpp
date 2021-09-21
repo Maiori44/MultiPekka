@@ -3,6 +3,7 @@
 #include <stdint.h>
 #define CHAR_ARROW 224
 #define CHAR_ESC 27
+#define CHAR_SEARCH 115
 #define ARROW_RIGHT 77
 #define ARROW_LEFT 75
 
@@ -67,6 +68,16 @@ void startspriter() {
 		switch (getch()) {
 			case CHAR_ESC:
 				return;
+			case CHAR_SEARCH: {
+				std::vector<std::string>::iterator pos = std::find(sprfiles.begin(), sprfiles.end(), getfullinput("Insert file name:"));
+				if (pos == sprfiles.end()) {
+					printf("\nThe file was not found\n");
+					system("pause");
+					break;
+				}
+				vectorpos = std::distance(sprfiles.begin(), pos);
+				break;
+			}
 			case CHAR_ARROW: {
 				switch (getch()) {
 					case ARROW_RIGHT: {
