@@ -9,6 +9,12 @@
 std::vector<std::string> sprfiles;
 int vectorpos;
 
+const char *checkfile(std::string filename) {
+	return access(std::string(path + "/Sprites/" + filename).c_str(), F_OK) == 0 ?
+	       filename.c_str() :
+	       std::string("\x1B[41m" + filename + "\x1B[40m").c_str();
+}
+
 void startspriter() {
 	//reset the vector
 	sprfiles.clear();
@@ -39,18 +45,18 @@ void startspriter() {
 			consolelog("\nInvalid sprite version! only version 1.3 is supported.");
 		} else {
 			consolelog("Name:\t\t\t%s\n", pkread(0x44C, 32, sprfile).c_str());
-			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", pkread(0x8, 12, sprfile).c_str());
-			consolelog("Damage Sound:\t\t%s\n", pkread(0x6C, 12, sprfile).c_str());
-			consolelog("KO Sound:\t\t%s\n", pkread(0xD0, 12, sprfile).c_str());
-			consolelog("Attack 1 Sound:\t\t%s\n", pkread(0x134, 12, sprfile).c_str());
-			consolelog("Attack 2 Sound:\t\t%s\n", pkread(0x198, 12, sprfile).c_str());
-			consolelog("Random Sound:\t\t%s\n\n- Sprites -\n", pkread(0x1FC, 12, sprfile).c_str());
-			consolelog("Transformation Sprite:\t%s\n", pkread(0x4E0, 12, sprfile).c_str());
-			consolelog("Bonus Sprite:\t\t%s\n", pkread(0x544, 12, sprfile).c_str());
-			consolelog("Attack 1 Sprite:\t%s\n", pkread(0x5A8, 12, sprfile).c_str());
-			consolelog("Attack 2 Sprite:\t%s\n", pkread(0x60C, 12, sprfile).c_str());
+			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checkfile(pkread(0x8, 12, sprfile)));
+			consolelog("Damage Sound:\t\t%s\n", checkfile(pkread(0x6C, 12, sprfile)));
+			consolelog("KO Sound:\t\t%s\n", checkfile(pkread(0xD0, 12, sprfile)));
+			consolelog("Attack 1 Sound:\t\t%s\n", checkfile(pkread(0x134, 12, sprfile)));
+			consolelog("Attack 2 Sound:\t\t%s\n", checkfile(pkread(0x198, 12, sprfile)));
+			consolelog("Random Sound:\t\t%s\n\n- Sprites -\n", checkfile(pkread(0x1FC, 12, sprfile)));
+			consolelog("Transformation Sprite:\t%s\n", checkfile(pkread(0x4E0, 12, sprfile)));
+			consolelog("Bonus Sprite:\t\t%s\n", checkfile(pkread(0x544, 12, sprfile)));
+			consolelog("Attack 1 Sprite:\t%s\n", checkfile(pkread(0x5A8, 12, sprfile)));
+			consolelog("Attack 2 Sprite:\t%s\n", checkfile(pkread(0x60C, 12, sprfile)));
 		}
-		consolelog("\n\npress the left/right arrows to navigate to different sprites, press esc to end this operation\n\n");
+		consolelog("\n\nnames in red are for missing files\npress the left/right arrows to navigate to different sprites, press esc to end this operation\n\n");
 		fclose(sprfile);
 		input:
 		switch (getch()) {

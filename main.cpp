@@ -38,6 +38,7 @@ int main() {
 		path = oldpath;
 	}
 	fclose(pathfile);
+	printf("\033[97m");
 	while (!closeprogram) {
 		system("cls");
 		consolelog("Select command:\n"
@@ -95,7 +96,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("Pekka++ Version 12 1.2\n"
+				consolelog("Pekka++ Version 13 1.2\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/PekkaZipper\n\n");
 				system("pause");
