@@ -56,7 +56,12 @@ void startspriter() {
 			consolelog("Attack 1 Sprite:\t%s\n", checkfile(pkread(0x5A8, 12, sprfile)));
 			consolelog("Attack 2 Sprite:\t%s\n", checkfile(pkread(0x60C, 12, sprfile)));
 		}
-		consolelog("\n\nnames in red are for missing files\npress the left/right arrows to navigate to different sprites, press esc to end this operation\n\n");
+		consolelog("\n\n(names in red are for missing files)\n\n"
+		           "Controls:\n"
+				   "[<-]\t- load previous sprite\n"
+				   "[->]\t- load next sprite\n"
+				   "[S]\t- search for a specific sprite\n"
+				   "[ESC]\t- end operation\n\n");
 		fclose(sprfile);
 		input:
 		switch (getch()) {
