@@ -26,14 +26,11 @@ void consolelog(const char *text, ...) {
 struct error {
   int code;
   const char *msg;
+  error(const char *msg, int code) :
+    msg(msg),
+    code(code)
+  {}
 };
-
-void throwerror(const char* errormsg, int errorcode) {
-	error newerror;
-	newerror.code = errorcode;
-	newerror.msg = errormsg;
-	throw newerror;
-}
 
 char asciitolower(char in) {
 	if (in <= 'Z' && in >= 'A')
@@ -85,7 +82,7 @@ DIR *openpkdir(const char *path) {
 		errormsg.append("The folder \"");
 		errormsg.append(path);
 		errormsg.append("\" was not found");
-		throwerror(errormsg.c_str(), ERROR_FOLDERNOTFOUND);
+		throw error(errormsg.c_str(), ERROR_FOLDERNOTFOUND);
 	}
 	return directory;
 }

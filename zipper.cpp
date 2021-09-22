@@ -59,7 +59,7 @@ void findandadd(std::string filename, paths episodepath, const char *normalpath)
 	episodefilepath.append("/");
 	episodefilepath.append(filename);
 	if (!addpkfile(episodepath.zip.c_str(), episodefilepath.c_str(), filename.c_str()) && !addpkfile(normalpath, std::string(path + "/" + normalpath + filename).c_str(), filename.c_str())) {
-		throwerror(std::string("The file \"" + filename + "\" was not found").c_str(), ERROR_FILENOTFOUND);
+		throw error(std::string("The file \"" + filename + "\" was not found").c_str(), ERROR_FILENOTFOUND);
 	}
 }
 
@@ -89,7 +89,7 @@ void startzipper() {
 					case CHOICE_YES:
 						break;
 					case CHOICE_NO: {
-						throwerror("Intentionally aborted to avoid overwrite", ERROR_ABORTDUEOVERWRITE);
+						throw error("Intentionally aborted to avoid overwrite", ERROR_ABORTDUEOVERWRITE);
 						break;
 					}
 					default: {
@@ -101,7 +101,7 @@ void startzipper() {
 			}
 		}
 		episodezip = zip_open(zippath.c_str(), ZIP_CREATE|ZIP_TRUNCATE, 0);
-		if (episodezip == NULL) throwerror("Failed to create the .zip file", ERROR_CANTCREATEZIP);
+		if (episodezip == NULL) throw error("Failed to create the .zip file", ERROR_CANTCREATEZIP);
 	}
 	clock_t start = clock();
 	//create the folders
@@ -190,11 +190,11 @@ void startzipper() {
     				spritefile = fopen(std::string(episodepath.pk + "/" + (*spritename)).c_str(), "rb");
     				if (spritefile == NULL) {
     					debugmsg = "";
-    					throwerror(std::string("Could not open the file \"" + (*spritename) + "\"").c_str(), ERROR_CANTOPENFILE);
+    					throw error(std::string("Could not open the file \"" + (*spritename) + "\"").c_str(), ERROR_CANTOPENFILE);
 					}
 				}
 				if (pkread(0x0, 3, spritefile) != "1.3") {
-					throwerror(std::string("The sprite \"" + (*spritename) + "\" uses an invalid sprite version (only version 1.3 is supported)").c_str(), ERROR_INVALIDSPRITEVERSION);
+					throw error(std::string("The sprite \"" + (*spritename) + "\" uses an invalid sprite version (only version 1.3 is supported)").c_str(), ERROR_INVALIDSPRITEVERSION);
 				}
 				debugmsg = *spritename;
 				//insert the sprite sounds and bitmap

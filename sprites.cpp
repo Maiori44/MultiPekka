@@ -38,7 +38,7 @@ void startspriter() {
 		std::string filename = sprfiles[vectorpos];
 		FILE *sprfile = fopen(std::string(path + "/Sprites/" + filename).c_str(), "rb");
 		if (sprfile == NULL) {
-			throwerror(std::string("Could not open the file \"" + filename + "\"").c_str(), ERROR_CANTOPENFILE);
+			throw error(std::string("Could not open the file \"" + filename + "\"").c_str(), ERROR_CANTOPENFILE);
 		}
 		system("cls");
 		consolelog("File:\t\t\t%s [%d/%d]\n", filename.c_str(), vectorpos + 1, static_cast<int>(sprfiles.size()));
