@@ -37,13 +37,13 @@ void startspriter() {
 	while (true) {
 		std::string filename = sprfiles[vectorpos];
 		FILE *sprfile = fopen(std::string(path + "/Sprites/" + filename).c_str(), "rb");
-		if (sprfile == NULL) {
-			throw error(std::string("Could not open the file \"" + filename + "\"").c_str(), ERROR_CANTOPENFILE);
-		}
 		system("cls");
 		consolelog("File:\t\t\t%s [%d/%d]\n", filename.c_str(), vectorpos + 1, static_cast<int>(sprfiles.size()));
-		if (pkread(0x0, 3, sprfile) != "1.3") {
+		if (sprfile == NULL) {
+			consolelog("\nFailed to open file!");
+		} else if (pkread(0x0, 3, sprfile) != "1.3") {
 			consolelog("\nInvalid sprite version! only version 1.3 is supported.");
+			fclose(sprfile);
 		} else {
 			consolelog("Name:\t\t\t%s\n", pkread(0x44C, 32, sprfile).c_str());
 			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checkfile(pkread(0x8, 12, sprfile)));
@@ -56,6 +56,7 @@ void startspriter() {
 			consolelog("Bonus Sprite:\t\t%s\n", checkfile(pkread(0x544, 12, sprfile)));
 			consolelog("Attack 1 Sprite:\t%s\n", checkfile(pkread(0x5A8, 12, sprfile)));
 			consolelog("Attack 2 Sprite:\t%s\n", checkfile(pkread(0x60C, 12, sprfile)));
+			fclose(sprfile);
 		}
 		consolelog("\n\n(names in red are for missing files)\n\n"
 		           "Controls:\n"
@@ -63,7 +64,6 @@ void startspriter() {
 				   "[->]\t- load next sprite\n"
 				   "[S]\t- search for a specific sprite\n"
 				   "[ESC]\t- end operation\n\n");
-		fclose(sprfile);
 		input:
 		switch (getch()) {
 			case CHAR_ESC:
