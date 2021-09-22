@@ -91,9 +91,9 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("Pekka++ Version 15 1.2\n"
+				consolelog("MultiPekka Version 16 1.2\n"
 				       "Created by Felix44\n"
-					   "Github: https://github.com/Felix-44/PekkaZipper\n\n");
+					   "Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
 				break;
 			}
