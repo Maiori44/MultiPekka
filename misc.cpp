@@ -54,7 +54,7 @@ uint64_t getinput() {
 }
 
 std::string getfullinput(const char *toprint) {
-	printf("%s\n\n", toprint);
+	consolelog("%s\n\n", toprint);
 	std::string inputstring;
 	std::getline(std::cin >> std::ws, inputstring);
 	fprintf(tmplog, "%s\n", inputstring.c_str());
