@@ -1,11 +1,12 @@
 #include <vector>
 #include <conio.h>
 #include <stdint.h>
-#define CHAR_ARROW 224
-#define CHAR_ESC 27
-#define CHAR_SEARCH 115
 #define ARROW_RIGHT 77
 #define ARROW_LEFT 75
+#define CHAR_ARROW 224
+#define CHAR_SEARCH 115
+#define CHAR_FINDBROKEN 102
+#define CHAR_ESC 27
 
 std::vector<std::string> sprfiles;
 int vectorpos;
@@ -23,7 +24,7 @@ void startspriter() {
 	//get all sprite names
 	{
 		consolelog("Locating all sprite files...\n");
-		DIR *spritesdir = openpkdir(std::string(path + "/Sprites").c_str());
+		DIR *spritesdir = openpkdir(std::string(path + "/sprites").c_str());
 		struct dirent *sprentry;
 		while ((sprentry = readdir(spritesdir))) {
 			std::string sprfilename = sprentry->d_name;
@@ -40,7 +41,7 @@ void startspriter() {
 	//enter the loop
 	while (true) {
 		std::string filename = sprfiles[vectorpos];
-		FILE *sprfile = fopen(std::string(path + "/Sprites/" + filename).c_str(), "rb");
+		FILE *sprfile = fopen(std::string(path + "/sprites/" + filename).c_str(), "rb");
 		system("cls");
 		consolelog("File:\t\t\t%s [%d/%d]\n", filename.c_str(), vectorpos + 1, static_cast<int>(sprfiles.size()));
 		if (sprfile == NULL) {
@@ -68,6 +69,7 @@ void startspriter() {
 				   "[<-]\t- load previous sprite\n"
 				   "[->]\t- load next sprite\n"
 				   "[S]\t- search for a specific sprite\n"
+				   "[F]\t- find a broken sprite\n"
 				   "[ESC]\t- end operation\n\n");
 		input:
 		//get an input and do accordingly
@@ -82,6 +84,12 @@ void startspriter() {
 					break;
 				}
 				vectorpos = std::distance(sprfiles.begin(), pos);
+				break;
+			}
+			case CHAR_FINDBROKEN: {
+				for (int i = 0; i <= static_cast<int>(sprfiles.size()); i++) {
+					printf("%d\n", i);
+				}
 				break;
 			}
 			case CHAR_ARROW: {
