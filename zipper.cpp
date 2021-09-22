@@ -190,7 +190,7 @@ void startzipper() {
     				spritefile = fopen(std::string(episodepath.pk + "/" + (*spritename)).c_str(), "rb");
     				if (spritefile == NULL) {
     					debugmsg = "";
-    					throw error(std::string("Could not open the file \"" + (*spritename) + "\"").c_str(), ERROR_CANTOPENFILE);
+    					throw error(std::string("The file \"" + (*spritename) + "\" was not found").c_str(), ERROR_FILENOTFOUND);
 					}
 				}
 				if (pkread(0x0, 3, spritefile) != "1.3") {
