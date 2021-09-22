@@ -66,11 +66,11 @@ void startspriter() {
 		}
 		consolelog("\n\n(names in red are for missing files)\n\n"
 		           "Controls:\n"
-				   "[<-]\t- load previous sprite\n"
-				   "[->]\t- load next sprite\n"
-				   "[S]\t- search for a specific sprite\n"
-				   "[F]\t- find a broken sprite\n"
-				   "[ESC]\t- end operation\n\n");
+		           "[<-]\t- load previous sprite\n"
+		           "[->]\t- load next sprite\n"
+		           "[S]\t- search for a specific sprite\n"
+		           "[F]\t- find a broken sprite\n"
+		           "[ESC]\t- end operation\n\n");
 		input:
 		//get an input and do accordingly
 		switch (getch()) {
@@ -79,7 +79,7 @@ void startspriter() {
 			case CHAR_SEARCH: {
 				std::vector<std::string>::iterator pos = std::find(sprfiles.begin(), sprfiles.end(), getfullinput("Insert file name:"));
 				if (pos == sprfiles.end()) {
-					printf("\nThe file was not found\n");
+					consolelog("\nThe file was not found\n");
 					system("pause");
 					break;
 				}
@@ -87,8 +87,33 @@ void startspriter() {
 				break;
 			}
 			case CHAR_FINDBROKEN: {
+				std::string check;
+				bool found = false;
 				for (int i = 0; i <= static_cast<int>(sprfiles.size()); i++) {
-					printf("%d\n", i);
+					FILE *filetocheck = fopen(std::string(path + "/sprites/" + sprfiles[i]).c_str(), "rb");
+					if (filetocheck == NULL) {
+						throw error(("Failed to open file \"" + sprfiles[i] + "\"").c_str(), ERROR_FILENOTFOUND);
+					} else if (pkread(0x0, 3, filetocheck) != "1.3") continue;
+					check = std::string(checkfile(pkread(0x8, 12, filetocheck))) +
+					        checkfile(pkread(0x6C, 12, filetocheck)) +
+					        checkfile(pkread(0xD0, 12, filetocheck)) +
+					        checkfile(pkread(0x134, 12, filetocheck)) +
+					    	checkfile(pkread(0x198, 12, filetocheck)) +
+					        checkfile(pkread(0x1FC, 12, filetocheck)) +
+					        checkfile(pkread(0x4E0, 12, filetocheck)) +
+					        checkfile(pkread(0x544, 12, filetocheck)) +
+					        checkfile(pkread(0x5A8, 12, filetocheck)) +
+					        checkfile(pkread(0x60C, 12, filetocheck));
+					fclose(filetocheck);
+					if (check.find("\x1B[41m") != check.npos) {
+						found = true;
+						vectorpos = i;
+						break;
+					}
+				}
+				if (!found) {
+					consolelog("\nNo broken sprites found\n");
+					system("pause");
 				}
 				break;
 			}
