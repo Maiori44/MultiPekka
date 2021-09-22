@@ -12,6 +12,7 @@
 #define COMMAND_INFO -237985200
 #define COMMAND_EXIT -248500869
 #define COMMAND_DEBUG 1740352334
+#define PCALL(function) try {function();} catch(error thrownerror) {consolelog("\nAn error accoured!\nError: %s\nError code: %d\n%s", thrownerror.msg, thrownerror.code, debugmsg != "" ? std::string("File: " + debugmsg + " (this error seems to have been caused by this file, checking it might help you fix the issue)\n").c_str() : "");}
 
 int intaction;
 bool closeprogram = false;
@@ -61,17 +62,12 @@ int main() {
 				break;
 			}
 			case COMMAND_ZIP: {
-				try {
-					startzipper();
-				} catch (error newerror) {
-					consolelog("\nAn error accoured!\nError: %s\nError code: %d\n%s", newerror.msg, newerror.code,
-					debugmsg != "" ? std::string("File: " + debugmsg + " (this error seems to have been caused by this file, checking it might help you fix the issue)\n").c_str() : "");
-				}
+				PCALL(startzipper);
 				system("pause");
 				break;
 			}
 			case COMMAND_SPRITES: {
-				startspriter();
+				PCALL(startspriter);
 				break;
 			}
 			case COMMAND_LOG: {
