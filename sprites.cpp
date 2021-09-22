@@ -41,10 +41,11 @@ void startspriter() {
 		consolelog("File:\t\t\t%s [%d/%d]\n", filename.c_str(), vectorpos + 1, static_cast<int>(sprfiles.size()));
 		if (sprfile == NULL) {
 			consolelog("\nFailed to open file!");
-		} else if (pkread(0x0, 3, sprfile) != "1.3") {
+		} else if (pkread(0x0, 3, sprfile) != "1.3") { //check if the sprite is in the correct verion
 			consolelog("\nInvalid sprite version! only version 1.3 is supported.");
 			fclose(sprfile);
 		} else {
+			//write all the sprite's info
 			consolelog("Name:\t\t\t%s\n", pkread(0x44C, 32, sprfile).c_str());
 			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checkfile(pkread(0x8, 12, sprfile)));
 			consolelog("Damage Sound:\t\t%s\n", checkfile(pkread(0x6C, 12, sprfile)));
@@ -65,6 +66,7 @@ void startspriter() {
 				   "[S]\t- search for a specific sprite\n"
 				   "[ESC]\t- end operation\n\n");
 		input:
+		//get an input and do accordingly
 		switch (getch()) {
 			case CHAR_ESC:
 				return;
