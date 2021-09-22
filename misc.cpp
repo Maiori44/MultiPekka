@@ -20,7 +20,6 @@ void consolelog(const char *text, ...) {
 	va_start(args, text);
 	vfprintf(stdout, text, args);
 	vfprintf(tmplog, text, args);
-	//fflush(stdout);
 }
 
 struct error {
