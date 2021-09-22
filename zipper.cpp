@@ -220,4 +220,5 @@ void startzipper() {
 	zip_close(episodezip);
 	consolelog("Successfully saved the zip\n");
 	consolelog("Process completed in %d seconds\n", (clock() - start) / CLOCKS_PER_SEC);
+	system("pause");
 }

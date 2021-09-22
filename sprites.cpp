@@ -33,6 +33,10 @@ void startspriter() {
 			}
 		}
 	}
+	//check if there were any sprites found
+	if (static_cast<int>(sprfiles.size()) == 0) {
+		throw error("No sprites found!", ERROR_NOSPRITESFOUND);
+	}
 	//enter the loop
 	while (true) {
 		std::string filename = sprfiles[vectorpos];
