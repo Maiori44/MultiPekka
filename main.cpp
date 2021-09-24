@@ -8,6 +8,7 @@
 #define COMMAND_SETUP -666713357
 #define COMMAND_ZIP -1877840
 #define COMMAND_SPRITES -468740822
+#define COMMAND_INSTALL 1925482103
 #define COMMAND_LOG -1731409
 #define COMMAND_INFO -237985200
 #define COMMAND_EXIT -248500869
@@ -46,6 +47,7 @@ int main() {
 		       "setup\t- Change the PK2 path\n"
 		       "zip\t- Create an episode .zip\n"
 		       "sprites\t- Display all information about a .spr file\n"
+		       "install\t- Install an episode from the mapstore\n"
 		       "log\t- Save a .txt of all previous events\n"
 		       "info\t- Show basic information about the program\n"
 		       "exit\t- Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
@@ -91,7 +93,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("MultiPekka Version 16 1.2\n"
+				consolelog("MultiPekka Version 17 1.3\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
