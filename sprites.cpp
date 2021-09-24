@@ -87,6 +87,7 @@ void startspriter() {
 				break;
 			}
 			case CHAR_FINDBROKEN: {
+				consolelog("Searching for broken files...\n");
 				std::string check;
 				bool found = false;
 				for (int i = 0; i < static_cast<int>(sprfiles.size()); i++) {
@@ -110,9 +111,10 @@ void startspriter() {
 						vectorpos = i;
 						break;
 					}
+					printf("Checked %d files\r", i);
 				}
 				if (!found) {
-					consolelog("\nNo broken sprites found\n");
+					consolelog("No broken sprites found\n");
 					system("pause");
 				}
 				break;
