@@ -89,7 +89,7 @@ void startspriter() {
 			case CHAR_FINDBROKEN: {
 				std::string check;
 				bool found = false;
-				for (int i = 0; i <= static_cast<int>(sprfiles.size()); i++) {
+				for (int i = 0; i < static_cast<int>(sprfiles.size()); i++) {
 					FILE *filetocheck = fopen(std::string(path + "/sprites/" + sprfiles[i]).c_str(), "rb");
 					if (filetocheck == NULL) {
 						throw error(("Failed to open file \"" + sprfiles[i] + "\"").c_str(), ERROR_FILENOTFOUND);
