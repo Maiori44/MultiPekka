@@ -1,4 +1,7 @@
 main.exe
+bz2.dll
+zip.dll
+zlib1.dll
 PekkaZipper.path
 jorma possu.zip
 build/
