@@ -111,7 +111,7 @@ void startspriter() {
 						vectorpos = i;
 						break;
 					}
-					printf("Checked %d files\r", i);
+					printf("Checked %d files\r", i + 1);
 				}
 				if (!found) {
 					consolelog("No broken sprites found\n");
