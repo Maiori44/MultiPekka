@@ -17,7 +17,6 @@
 #define PCALL(function) try {function();} catch(error thrownerror) {consolelog("\nAn error accoured!\nError: %s\nError code: %d\n%s", thrownerror.msg, thrownerror.code, debugmsg != "" ? std::string("File: " + debugmsg + " (this error seems to have been caused by this file, checking it might help you fix the issue)\n").c_str() : ""); system("pause");}
 
 int intaction;
-bool closeprogram = false;
 FILE *pathfile;
 
 int main() {
@@ -42,7 +41,7 @@ int main() {
 		path = oldpath;
 	}
 	fclose(pathfile);
-	while (!closeprogram) {
+	while (true) {
 		system("cls");
 		consolelog("Select command:\n"
 		       "setup\t- Change the PK2 path\n"
@@ -110,8 +109,9 @@ int main() {
 				break;
 			}
 			case COMMAND_EXIT: {
-				closeprogram = true;
-				break;
+				fclose(tmplog);
+				remove("templog");
+				return 0;
 			}
 			case COMMAND_DEBUG: {
 				printf("%d\n", getinput());
@@ -121,7 +121,4 @@ int main() {
 		}
 		consolelog("\n");
 	}
-	fclose(tmplog);
-	remove("templog");
-	return 0;
 }
