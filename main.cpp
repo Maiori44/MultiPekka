@@ -20,7 +20,7 @@ bool closeprogram = false;
 FILE *pathfile;
 
 int main() {
-	system("title PekkaZipper");
+	system("title MultiPekka");
 	remove("templog");
 	tmplog = fopen("templog", "w+");
 	if (tmplog == NULL) {
@@ -29,7 +29,7 @@ int main() {
 	} else {
 		SetFileAttributes("templog", GetFileAttributes("templog") + FILE_ATTRIBUTE_HIDDEN);
 	}
-	pathfile = fopen("PekkaZipper.path", "r+");
+	pathfile = fopen("MultiPekka.path", "r+");
 	if (!pathfile) {
 		consolelog("This seems to be your first time using this program\n");
 		goto setup;
@@ -58,7 +58,7 @@ int main() {
 				std::string newpath = getfullinput(pathfile ? "Insert the path to your Pekka Kana 2 folder:\n(or type \"cancel\" to cancel this opertion)" : "Insert the path to your Pekka Kana 2 folder:");
 				if (pathfile && newpath == "cancel") break;
 				path = newpath;
-				pathfile = fopen("PekkaZipper.path", "w+");
+				pathfile = fopen("MultiPekka.path", "w+");
 				fprintf(pathfile, "%s", path.c_str());
 				fclose(pathfile);
 				break;
@@ -75,7 +75,7 @@ int main() {
 				time_t t = time(NULL);
 				time(&t);
 				struct tm *ct = localtime(&t);
-				std::string logname = "Pekka Zipper log " +
+				std::string logname = "MultiPekka log " +
 				std::to_string(ct->tm_mday) + " " +
 				std::to_string(ct->tm_mon + 1) + " " +
 				std::to_string(ct->tm_hour) + " " +
@@ -93,7 +93,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("MultiPekka Version 17 1.3\n"
+				consolelog("MultiPekka Version 19 1.3\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
