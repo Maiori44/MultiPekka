@@ -2,6 +2,7 @@
 #include <string>
 #include <time.h>
 #include <windows.h>
+#include "duktape.h"
 #include "misc.cpp"
 #include "zipper.cpp"
 #include "sprites.cpp"
@@ -69,6 +70,15 @@ int main() {
 			}
 			case COMMAND_SPRITES: {
 				PCALL(startspriter);
+				break;
+			}
+			case COMMAND_INSTALL: {
+				PCALL([=]() {
+					consolelog("\nInitializing JavaScript engine...\n");
+					duk_context *ctx = duk_create_heap_default();
+					if (!ctx) throw error("Failed to initialize JavaScript engine", ERROR_CANTSTARTDUKTAPE);
+					duk_destroy_heap(ctx);
+				})
 				break;
 			}
 			case COMMAND_LOG: {
