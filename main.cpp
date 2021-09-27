@@ -23,8 +23,8 @@ int main() {
 	system("title MultiPekka");
 	system("color 0f");
 	remove("templog");
-	tmplog = fopen("templog", "w+");
-	if (tmplog == NULL) {
+	templog = fopen("templog", "w+");
+	if (templog == NULL) {
 		printf("Unable to create temporary log file, the \"log\" command will not work\n");
 		system("pause");
 	} else {
@@ -94,7 +94,7 @@ int main() {
 				if (logfile == NULL) {
 					consolelog("Something went wrong when creating the file..try again?\n");
 				} else {
-					fprintf(logfile, "%s", pkread(0, 2147483647, tmplog).c_str());
+					fprintf(logfile, "%s", pkread(0, 2147483647, templog).c_str());
 					fclose(logfile);
 					consolelog("Saved log as \"%s\"\n", logname.c_str());
 				}
@@ -109,7 +109,7 @@ int main() {
 				break;
 			}
 			case COMMAND_EXIT: {
-				fclose(tmplog);
+				fclose(templog);
 				remove("templog");
 				return 0;
 			}

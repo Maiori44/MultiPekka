@@ -14,13 +14,13 @@
 #define ERROR_CANTSTARTDUKTAPE 7
 
 std::string path;
-FILE *tmplog;
+FILE *templog;
 
 void consolelog(const char *text, ...) {
 	va_list args;
 	va_start(args, text);
 	vfprintf(stdout, text, args);
-	vfprintf(tmplog, text, args);
+	vfprintf(templog, text, args);
 }
 
 struct error {
@@ -50,7 +50,7 @@ uint64_t getinput() {
 	std::string action;
 	std::cin >> action;
 	transform(action.begin(), action.end(), action.begin(), asciitolower);
-	fprintf(tmplog, "%s\n",action.c_str());
+	fprintf(templog, "%s\n",action.c_str());
 	return hash(action.c_str());
 }
 
@@ -58,7 +58,7 @@ std::string getfullinput(const char *toprint) {
 	consolelog("%s\n\n", toprint);
 	std::string inputstring;
 	std::getline(std::cin >> std::ws, inputstring);
-	fprintf(tmplog, "%s\n", inputstring.c_str());
+	fprintf(templog, "%s\n", inputstring.c_str());
 	return inputstring;
 }
 
