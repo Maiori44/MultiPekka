@@ -22,6 +22,7 @@ FILE *pathfile;
 
 int main() {
 	system("title MultiPekka");
+	system("color 0f");
 	remove("templog");
 	tmplog = fopen("templog", "w+");
 	if (tmplog == NULL) {
@@ -41,7 +42,6 @@ int main() {
 		path = oldpath;
 	}
 	fclose(pathfile);
-	printf("\033[97m");
 	while (!closeprogram) {
 		system("cls");
 		consolelog("Select command:\n"
