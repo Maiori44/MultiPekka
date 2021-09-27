@@ -14,7 +14,7 @@ int vectorpos;
 const char *checkfile(std::string filename) {
 	return access(std::string(path + "/Sprites/" + filename).c_str(), F_OK) == 0 ?
 	       filename.c_str() :
-	       std::string("\x1B[41m" + filename + "\x1B[40m").c_str();
+	       std::string(filename + "\t<MISSING!>").c_str();
 }
 
 void startspriter() {
@@ -64,8 +64,7 @@ void startspriter() {
 			consolelog("Attack 2 Sprite:\t%s\n", checkfile(pkread(0x60C, 12, sprfile)));
 			fclose(sprfile);
 		}
-		consolelog("\n\n(names in red are for missing files)\n\n"
-		           "Controls:\n"
+		consolelog("\n\nControls:\n"
 		           "[<-]\t- load previous sprite\n"
 		           "[->]\t- load next sprite\n"
 		           "[S]\t- search for a specific sprite\n"
@@ -106,7 +105,7 @@ void startspriter() {
 					        checkfile(pkread(0x5A8, 12, filetocheck)) +
 					        checkfile(pkread(0x60C, 12, filetocheck));
 					fclose(filetocheck);
-					if (check.find("\x1B[41m") != check.npos) {
+					if (check.find("<MISSING!>") != check.npos) {
 						found = true;
 						vectorpos = i;
 						break;
