@@ -2,7 +2,6 @@
 #include <string>
 #include <time.h>
 #include <windows.h>
-#include "duktape.h"
 #include "misc.cpp"
 #include "zipper.cpp"
 #include "sprites.cpp"
@@ -72,12 +71,29 @@ int main() {
 				break;
 			}
 			case COMMAND_ONLINE: {
-				PCALL([=]() {
-					consolelog("\nInitializing JavaScript engine...\n");
+				/*PCALL([=]() {
+					consolelog("\nLoading \"mapstore.js\"...\n");
+					std::string mapstorecode;
+					FILE *codefile = fopen("mapstore.js", "rb");
+					if (codefile == NULL) throw error("Could not find mapstore.js", ERROR_FILENOTFOUND);
+					int byte = fgetc(codefile);
+					unsigned int check = 0;
+					while (byte != EOF) {
+						check += byte;
+						char crt[2];
+						sprintf(crt, "%c", byte);
+						mapstorecode.append(crt);
+						byte = fgetc(codefile);
+					}
+					fclose(codefile);
+					consolelog("Initializing JavaScript engine...\n");
 					duk_context *ctx = duk_create_heap_default();
 					if (!ctx) throw error("Failed to initialize JavaScript engine", ERROR_CANTSTARTDUKTAPE);
+					system("cls");
+					duk_eval_string_noresult(ctx, mapstorecode.c_str());
 					duk_destroy_heap(ctx);
-				})
+					system("pause");
+				})*/
 				break;
 			}
 			case COMMAND_LOG: {
