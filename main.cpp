@@ -71,29 +71,9 @@ int main() {
 				break;
 			}
 			case COMMAND_ONLINE: {
-				/*PCALL([=]() {
-					consolelog("\nLoading \"mapstore.js\"...\n");
-					std::string mapstorecode;
-					FILE *codefile = fopen("mapstore.js", "rb");
-					if (codefile == NULL) throw error("Could not find mapstore.js", ERROR_FILENOTFOUND);
-					int byte = fgetc(codefile);
-					unsigned int check = 0;
-					while (byte != EOF) {
-						check += byte;
-						char crt[2];
-						sprintf(crt, "%c", byte);
-						mapstorecode.append(crt);
-						byte = fgetc(codefile);
-					}
-					fclose(codefile);
-					consolelog("Initializing JavaScript engine...\n");
-					duk_context *ctx = duk_create_heap_default();
-					if (!ctx) throw error("Failed to initialize JavaScript engine", ERROR_CANTSTARTDUKTAPE);
-					system("cls");
-					duk_eval_string_noresult(ctx, mapstorecode.c_str());
-					duk_destroy_heap(ctx);
-					system("pause");
-				})*/
+				system("cls");
+				system(".\\mapstore\\node.exe mapstore\\mapstore.js");
+				system("color 0f");
 				break;
 			}
 			case COMMAND_LOG: {
@@ -118,7 +98,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("MultiPekka Version 19 1.3\n"
+				consolelog("MultiPekka Version 20 1.3\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
