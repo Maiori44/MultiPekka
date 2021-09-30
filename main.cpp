@@ -71,9 +71,13 @@ int main() {
 				break;
 			}
 			case COMMAND_ONLINE: {
-				system("cls");
-				system(".\\mapstore\\node.exe mapstore\\mapstore.js");
-				system("color 0f");
+				PCALL([=]{
+					if (access("mapstore/node.exe", F_OK) != 0) throw error("The program node.exe is missing", ERROR_MISSINGFILEFORNODEJS);
+					if (access("mapstore/mapstore.js", F_OK) != 0) throw error("Missing mapstore.js file", ERROR_MISSINGFILEFORNODEJS);
+					system("cls");
+					system(".\\mapstore\\node.exe mapstore\\mapstore.js");
+					system("color 0f");	
+				})
 				break;
 			}
 			case COMMAND_LOG: {
@@ -98,7 +102,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("MultiPekka Version 20 1.3\n"
+				consolelog("MultiPekka Version 21 1.3\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
