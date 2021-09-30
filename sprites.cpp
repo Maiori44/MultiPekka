@@ -35,7 +35,7 @@ void startspriter() {
 		}
 	}
 	//check if there were any sprites found
-	if (static_cast<int>(sprfiles.size()) == 0) {
+	if (sprfiles.empty()) {
 		throw error("No sprites found!", ERROR_NOSPRITESFOUND);
 	}
 	//enter the loop
