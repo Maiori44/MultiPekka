@@ -7,3 +7,4 @@ jorma possu.zip
 build/
 compile.bat
 mapstore/node.exe
+mapstore/node_modules/
