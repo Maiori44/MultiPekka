@@ -46,7 +46,7 @@ int main() {
 		       "setup\t- Change the PK2 path\n"
 		       "zip\t- Create an episode .zip\n"
 		       "sprites\t- Display all information about a .spr file\n"
-		       "online\t- Show all mapstore related commands\n"
+		       //"online\t- Show all mapstore related commands\n"
 		       "log\t- Save a .txt of all previous events\n"
 		       "info\t- Show basic information about the program\n"
 		       "exit\t- Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
@@ -71,13 +71,15 @@ int main() {
 				break;
 			}
 			case COMMAND_ONLINE: {
-				PCALL([=]{
+				/*PCALL([=]{
 					if (access("mapstore/node.exe", F_OK) != 0) throw error("The program node.exe is missing", ERROR_MISSINGFILEFORNODEJS);
 					if (access("mapstore/mapstore.js", F_OK) != 0) throw error("Missing mapstore.js file", ERROR_MISSINGFILEFORNODEJS);
 					system("cls");
 					system(".\\mapstore\\node.exe mapstore\\mapstore.js");
 					system("color 0f");	
-				})
+				})*/
+				consolelog("\nYou'll have to wait for this\n");
+				system("pause");
 				break;
 			}
 			case COMMAND_LOG: {
