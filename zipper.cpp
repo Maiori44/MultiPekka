@@ -149,9 +149,9 @@ void startzipper() {
         		if (filename.find(".map") != filename.npos) {
         			//maxbar += 3;
 					//get and insert the map tileset, bg and music
-					findandadd(pkread(0x5, 12, mapfile), episodepath, "gfx/tiles/");
-					findandadd(pkread(0x12, 12, mapfile), episodepath, "gfx/scenery/");
-					findandadd(pkread(0x1F, 12, mapfile), episodepath, "music/");
+					findandadd(pkread(0x5, 32, mapfile), episodepath, "gfx/tiles/");
+					findandadd(pkread(0x12, 32, mapfile), episodepath, "gfx/scenery/");
+					findandadd(pkread(0x1F, 32, mapfile), episodepath, "music/");
 					//get and memorize the .spr files this map uses
 					int numsprites = std::stoi(pkread(0xDC, 8, mapfile));
 					if (numsprites > 0) {
@@ -198,17 +198,17 @@ void startzipper() {
 				}
 				debugmsg = *spritename;
 				//insert the sprite sounds and bitmap
-				findandadd(pkread(0x8, 12, spritefile), episodepath, spritepath.zip.c_str());
-				findandadd(pkread(0x6C, 12, spritefile), episodepath, spritepath.zip.c_str());
-				findandadd(pkread(0xD0, 12, spritefile), episodepath, spritepath.zip.c_str());
-				findandadd(pkread(0x134, 12, spritefile), episodepath, spritepath.zip.c_str());
-				findandadd(pkread(0x198, 12, spritefile), episodepath, spritepath.zip.c_str());
-				findandadd(pkread(0x1FC, 12, spritefile), episodepath, spritepath.zip.c_str());
+				findandadd(pkread(0x8, 32, spritefile), episodepath, spritepath.zip.c_str());
+				findandadd(pkread(0x6C, 32, spritefile), episodepath, spritepath.zip.c_str());
+				findandadd(pkread(0xD0, 32, spritefile), episodepath, spritepath.zip.c_str());
+				findandadd(pkread(0x134, 32, spritefile), episodepath, spritepath.zip.c_str());
+				findandadd(pkread(0x198, 32, spritefile), episodepath, spritepath.zip.c_str());
+				findandadd(pkread(0x1FC, 32, spritefile), episodepath, spritepath.zip.c_str());
 				//add to the queue the sprites this sprite needs
-				memorizespr(pkread(0x4E0, 12, spritefile));
-				memorizespr(pkread(0x544, 12, spritefile));
-				memorizespr(pkread(0x5A8, 12, spritefile));
-				memorizespr(pkread(0x60C, 12, spritefile));
+				memorizespr(pkread(0x4E0, 32, spritefile));
+				memorizespr(pkread(0x544, 32, spritefile));
+				memorizespr(pkread(0x5A8, 32, spritefile));
+				memorizespr(pkread(0x60C, 32, spritefile));
 				fclose(spritefile);
 			}
 		}
