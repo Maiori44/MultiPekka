@@ -53,15 +53,15 @@ void startspriter() {
 			//write all the sprite's info
 			consolelog("Name:\t\t\t%s\n", pkread(0x44C, 32, sprfile).c_str());
 			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checkfile(pkread(0x8, 12, sprfile)));
-			consolelog("Damage Sound:\t\t%s\n", checkfile(pkread(0x6C, 12, sprfile)));
-			consolelog("KO Sound:\t\t%s\n", checkfile(pkread(0xD0, 12, sprfile)));
-			consolelog("Attack 1 Sound:\t\t%s\n", checkfile(pkread(0x134, 12, sprfile)));
-			consolelog("Attack 2 Sound:\t\t%s\n", checkfile(pkread(0x198, 12, sprfile)));
-			consolelog("Random Sound:\t\t%s\n\n- Sprites -\n", checkfile(pkread(0x1FC, 12, sprfile)));
-			consolelog("Transformation Sprite:\t%s\n", checkfile(pkread(0x4E0, 12, sprfile)));
-			consolelog("Bonus Sprite:\t\t%s\n", checkfile(pkread(0x544, 12, sprfile)));
-			consolelog("Attack 1 Sprite:\t%s\n", checkfile(pkread(0x5A8, 12, sprfile)));
-			consolelog("Attack 2 Sprite:\t%s\n", checkfile(pkread(0x60C, 12, sprfile)));
+			consolelog("Damage Sound:\t\t%s\n", checkfile(pkread(0x6C, 32, sprfile)));
+			consolelog("KO Sound:\t\t%s\n", checkfile(pkread(0xD0, 32, sprfile)));
+			consolelog("Attack 1 Sound:\t\t%s\n", checkfile(pkread(0x134, 32, sprfile)));
+			consolelog("Attack 2 Sound:\t\t%s\n", checkfile(pkread(0x198, 32, sprfile)));
+			consolelog("Random Sound:\t\t%s\n\n- Sprites -\n", checkfile(pkread(0x1FC, 32, sprfile)));
+			consolelog("Transformation Sprite:\t%s\n", checkfile(pkread(0x4E0, 32, sprfile)));
+			consolelog("Bonus Sprite:\t\t%s\n", checkfile(pkread(0x544, 32, sprfile)));
+			consolelog("Attack 1 Sprite:\t%s\n", checkfile(pkread(0x5A8, 32, sprfile)));
+			consolelog("Attack 2 Sprite:\t%s\n", checkfile(pkread(0x60C, 32, sprfile)));
 			fclose(sprfile);
 		}
 		consolelog("\n\nControls:\n"
