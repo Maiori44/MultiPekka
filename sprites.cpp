@@ -6,6 +6,7 @@
 #define CHAR_ARROW 224
 #define CHAR_SEARCH 115
 #define CHAR_FINDBROKEN 102
+#define CHAR_LEVELSEARCH 108
 #define CHAR_ESC 27
 
 std::vector<std::string> sprfiles;
@@ -69,6 +70,7 @@ void startspriter() {
 		           "[->]\t- load next sprite\n"
 		           "[S]\t- search for a specific sprite\n"
 		           "[F]\t- find a broken sprite\n"
+		           "[L]\t- show a list of all levels that use this sprite\n"
 		           "[ESC]\t- end operation\n\n");
 		input:
 		//get an input and do accordingly
@@ -116,6 +118,11 @@ void startspriter() {
 					consolelog("No broken sprites found\n");
 					system("pause");
 				}
+				break;
+			}
+			case CHAR_LEVELSEARCH: {
+				std::vector<std::vector<std::string>> checksprs;
+				DIR *episodesdir = openpkdir(std::string(path + "/Episodes/").c_str());
 				break;
 			}
 			case CHAR_ARROW: {
