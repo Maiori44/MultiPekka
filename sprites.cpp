@@ -121,8 +121,35 @@ void startspriter() {
 				break;
 			}
 			case CHAR_LEVELSEARCH: {
-				std::vector<std::vector<std::string>> checksprs;
 				DIR *episodesdir = openpkdir(std::string(path + "/Episodes/").c_str());
+				DIR *episodedir;
+				struct dirent *epsentry;
+				struct dirent *epentry;
+				struct stat stats;
+				FILE *mapfile;
+				int numsprites;
+				while ((epsentry = readdir(episodesdir))) {
+					stat(epsentry->d_name, &stats);
+					if (S_ISDIR(stats.st_mode)) continue;
+					consolelog("In episode %s:\n", epsentry->d_name);
+					episodedir = openpkdir(std::string(path + "/Episodes/" + epsentry->d_name).c_str());
+					while ((epentry = readdir(episodedir))) {
+						std::string filename = epentry->d_name;
+						if (filename.find(".map") == filename.npos) continue;
+						mapfile = fopen(std::string(path + "/Episodes/" + epsentry->d_name + "/" + filename).c_str(), "rb");
+						if (mapfile == NULL) continue;
+						numsprites = std::stoi(pkread(0xDC, 8, mapfile));
+						if (numsprites <= 0) continue;
+						for(int i = 0; i < numsprites; i++) {
+							if (pkread(0xE4 + (13 * i), 12, mapfile) == sprfiles[vectorpos]) {
+								consolelog("\t%s\n", filename.c_str());
+								break;
+							}
+						}
+					}
+					consolelog("\n");
+				}
+				system("pause");
 				break;
 			}
 			case CHAR_ARROW: {
