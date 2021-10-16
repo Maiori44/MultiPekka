@@ -104,7 +104,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("MultiPekka Version 25 1.4\n"
+				consolelog("MultiPekka Version 26 1.4\n"
 				       "Created by Felix44\n"
 					   "Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
