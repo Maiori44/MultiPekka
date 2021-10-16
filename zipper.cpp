@@ -126,6 +126,8 @@ void startzipper() {
 		zipepisodepath.append("/");
 		episodepath.zip = zipepisodepath;
 	}
+	//add pk2stuff.bmp in the zip
+	addpkfile("gfx/", std::string(path + "/gfx/pk2stuff.bmp").c_str(), "pk2stuff.bmp");
 	//MAP LOOP - add the files for and from the .map files, and memorize the .spr files for the sprite loop
 	{
 		consolelog("Entering Map Loop...\n");
