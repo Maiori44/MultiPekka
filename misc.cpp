@@ -11,7 +11,6 @@
 #define ERROR_FILENOTFOUND 4			//a generic file was not found
 #define ERROR_NOSPRITESFOUND 5			//you don't have any .spr file in your pk2 somehow
 #define ERROR_INVALIDSPRITEVERSION 6	//the .spr file is not version 1.3
-#define ERROR_MISSINGFILEFORNODEJS 7	//a file for nodejs is missing
 
 std::string path;
 FILE *templog;
