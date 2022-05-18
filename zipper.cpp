@@ -139,17 +139,17 @@ void startzipper() {
 		//iterate trough all the files
 		while ((entry = readdir(episodedir))) {
 			stat(entry->d_name, &filestat);
-        	if (!S_ISDIR(filestat.st_mode)) {
-        		debugmsg = entry->d_name;
-        		std::string filepath = episodepath.pk;
+			if (!S_ISDIR(filestat.st_mode)) {
+				debugmsg = entry->d_name;
+				std::string filepath = episodepath.pk;
 				filepath.append("/");
 				filepath.append(entry->d_name);
-        		FILE *mapfile = fopen(filepath.c_str(), "rb");
-        		if (mapfile == NULL) continue;
-        		//maxbar++;
-        		std::string filename = entry->d_name;
-        		if (filename.find(".map") != filename.npos) {
-        			//maxbar += 3;
+				FILE *mapfile = fopen(filepath.c_str(), "rb");
+				if (mapfile == NULL) continue;
+				//maxbar++;
+				std::string filename = entry->d_name;
+				if (filename.find(".map") != filename.npos) {
+					//maxbar += 3;
 					//get and insert the map tileset, bg and music
 					findandadd(pkread(0x5, 32, mapfile), episodepath, "gfx/tiles/");
 					findandadd(pkread(0x12, 32, mapfile), episodepath, "gfx/scenery/");
@@ -185,14 +185,14 @@ void startzipper() {
 			std::unordered_set<std::string> spriterate;
 			spriterate.swap(sprqueue);
 			for (auto spritename = begin(spriterate); spritename != end(spriterate); ++spritename) { 
-    			findandadd(*spritename, episodepath, spritepath.zip.c_str());
-    			FILE *spritefile;
-    			spritefile = fopen(std::string(spritepath.pk + "/" + (*spritename)).c_str(), "rb");
-    			if (spritefile == NULL) {
-    				spritefile = fopen(std::string(episodepath.pk + "/" + (*spritename)).c_str(), "rb");
-    				if (spritefile == NULL) {
-    					debugmsg = "";
-    					throw error(std::string("The file \"" + (*spritename) + "\" was not found").c_str(), ERROR_FILENOTFOUND);
+				findandadd(*spritename, episodepath, spritepath.zip.c_str());
+				FILE *spritefile;
+				spritefile = fopen(std::string(spritepath.pk + "/" + (*spritename)).c_str(), "rb");
+				if (spritefile == NULL) {
+					spritefile = fopen(std::string(episodepath.pk + "/" + (*spritename)).c_str(), "rb");
+					if (spritefile == NULL) {
+						debugmsg = "";
+						throw error(std::string("The file \"" + (*spritename) + "\" was not found").c_str(), ERROR_FILENOTFOUND);
 					}
 				}
 				if (pkread(0x0, 3, spritefile) != "1.3") {

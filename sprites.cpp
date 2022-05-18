@@ -14,8 +14,8 @@ int vectorpos;
 
 const char *checkfile(std::string filename) {
 	return access(std::string(path + "/Sprites/" + filename).c_str(), F_OK) == 0 ?
-	       filename.c_str() :
-	       std::string(filename + "\t<MISSING!>").c_str();
+		filename.c_str() :
+		std::string(filename + "\t<MISSING!>").c_str();
 }
 
 void startspriter() {
@@ -66,12 +66,12 @@ void startspriter() {
 			fclose(sprfile);
 		}
 		consolelog("\n\nControls:\n"
-		           "[<-]\t- load previous sprite\n"
-		           "[->]\t- load next sprite\n"
-		           "[S]\t- search for a specific sprite\n"
-		           "[F]\t- find a broken sprite\n"
-		           "[L]\t- show a list of all levels that use this sprite\n"
-		           "[ESC]\t- end operation\n\n");
+				"[<-]\t- load previous sprite\n"
+				"[->]\t- load next sprite\n"
+				"[S]\t- search for a specific sprite\n"
+				"[F]\t- find a broken sprite\n"
+				"[L]\t- show a list of all levels that use this sprite\n"
+				"[ESC]\t- end operation\n\n");
 		input:
 		//get an input and do accordingly
 		switch (getch()) {
@@ -97,15 +97,15 @@ void startspriter() {
 						throw error(("Failed to open file \"" + sprfiles[i] + "\"").c_str(), ERROR_FILENOTFOUND);
 					} else if (pkread(0x0, 3, filetocheck) != "1.3") continue;
 					check = std::string(checkfile(pkread(0x8, 12, filetocheck))) +
-					        checkfile(pkread(0x6C, 12, filetocheck)) +
-					        checkfile(pkread(0xD0, 12, filetocheck)) +
-					        checkfile(pkread(0x134, 12, filetocheck)) +
-					    	checkfile(pkread(0x198, 12, filetocheck)) +
-					        checkfile(pkread(0x1FC, 12, filetocheck)) +
-					        checkfile(pkread(0x4E0, 12, filetocheck)) +
-					        checkfile(pkread(0x544, 12, filetocheck)) +
-					        checkfile(pkread(0x5A8, 12, filetocheck)) +
-					        checkfile(pkread(0x60C, 12, filetocheck));
+							checkfile(pkread(0x6C, 12, filetocheck)) +
+							checkfile(pkread(0xD0, 12, filetocheck)) +
+							checkfile(pkread(0x134, 12, filetocheck)) +
+							checkfile(pkread(0x198, 12, filetocheck)) +
+							checkfile(pkread(0x1FC, 12, filetocheck)) +
+							checkfile(pkread(0x4E0, 12, filetocheck)) +
+							checkfile(pkread(0x544, 12, filetocheck)) +
+							checkfile(pkread(0x5A8, 12, filetocheck)) +
+							checkfile(pkread(0x60C, 12, filetocheck));
 					fclose(filetocheck);
 					if (check.find("<MISSING!>") != check.npos) {
 						found = true;
