@@ -53,7 +53,7 @@ void startspriter() {
 		} else {
 			//write all the sprite's info
 			consolelog("Name:\t\t\t%s\n", pkread(0x44C, 32, sprfile).c_str());
-			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checkfile(pkread(0x8, 12, sprfile)));
+			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checkfile(pkread(0x8, 32, sprfile)));
 			consolelog("Damage Sound:\t\t%s\n", checkfile(pkread(0x6C, 32, sprfile)));
 			consolelog("KO Sound:\t\t%s\n", checkfile(pkread(0xD0, 32, sprfile)));
 			consolelog("Attack 1 Sound:\t\t%s\n", checkfile(pkread(0x134, 32, sprfile)));
@@ -96,7 +96,7 @@ void startspriter() {
 					if (filetocheck == NULL) {
 						throw error(("Failed to open file \"" + sprfiles[i] + "\"").c_str(), ERROR_FILENOTFOUND);
 					} else if (pkread(0x0, 3, filetocheck) != "1.3") continue;
-					check = std::string(checkfile(pkread(0x8, 12, filetocheck))) +
+					check = std::string(checkfile(pkread(0x8, 32, filetocheck))) +
 							checkfile(pkread(0x6C, 32, filetocheck)) +
 							checkfile(pkread(0xD0, 32, filetocheck)) +
 							checkfile(pkread(0x134, 32, filetocheck)) +
