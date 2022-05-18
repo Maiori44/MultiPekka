@@ -43,13 +43,13 @@ int main() {
 	while (true) {
 		system("cls");
 		consolelog("Select command:\n"
-		       "setup\t- Change the PK2 path\n"
-		       "zip\t- Create an episode .zip\n"
-		       "sprites\t- Display all information about a .spr file\n"
-		       //"online\t- Show all mapstore related commands\n"
-		       "log\t- Save a .txt of all previous events\n"
-		       "info\t- Show basic information about the program\n"
-		       "exit\t- Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
+			"setup\t- Change the PK2 path\n"
+			"zip\t- Create an episode .zip\n"
+			"sprites\t- Display all information about a .spr file\n"
+			//"online\t- Show all mapstore related commands\n"
+			"log\t- Save a .txt of all previous events\n"
+			"info\t- Show basic information about the program\n"
+			"exit\t- Close the program\n\nCurrent PK2 path: %s\n\n", path.c_str());
 		intaction = getinput();
 		switch(intaction) {
 			case COMMAND_SETUP: {
@@ -104,9 +104,9 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("MultiPekka Version 26 1.4\n"
-				       "Created by Felix44\n"
-					   "Github: https://github.com/Felix-44/MultiPekka\n\n");
+				consolelog("MultiPekka v1.5 UNFINISHED\n"
+					"Created by Felix44\n"
+					"Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
 				break;
 			}
