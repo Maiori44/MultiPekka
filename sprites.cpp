@@ -97,15 +97,15 @@ void startspriter() {
 						throw error(("Failed to open file \"" + sprfiles[i] + "\"").c_str(), ERROR_FILENOTFOUND);
 					} else if (pkread(0x0, 3, filetocheck) != "1.3") continue;
 					check = std::string(checkfile(pkread(0x8, 12, filetocheck))) +
-							checkfile(pkread(0x6C, 12, filetocheck)) +
-							checkfile(pkread(0xD0, 12, filetocheck)) +
-							checkfile(pkread(0x134, 12, filetocheck)) +
-							checkfile(pkread(0x198, 12, filetocheck)) +
-							checkfile(pkread(0x1FC, 12, filetocheck)) +
-							checkfile(pkread(0x4E0, 12, filetocheck)) +
-							checkfile(pkread(0x544, 12, filetocheck)) +
-							checkfile(pkread(0x5A8, 12, filetocheck)) +
-							checkfile(pkread(0x60C, 12, filetocheck));
+							checkfile(pkread(0x6C, 32, filetocheck)) +
+							checkfile(pkread(0xD0, 32, filetocheck)) +
+							checkfile(pkread(0x134, 32, filetocheck)) +
+							checkfile(pkread(0x198, 32, filetocheck)) +
+							checkfile(pkread(0x1FC, 32, filetocheck)) +
+							checkfile(pkread(0x4E0, 32, filetocheck)) +
+							checkfile(pkread(0x544, 32, filetocheck)) +
+							checkfile(pkread(0x5A8, 32, filetocheck)) +
+							checkfile(pkread(0x60C, 32, filetocheck));
 					fclose(filetocheck);
 					if (check.find("<MISSING!>") != check.npos) {
 						found = true;
