@@ -5,6 +5,7 @@
 #include "misc.cpp"
 #include "zipper.cpp"
 #include "sprites.cpp"
+#include "leveler.cpp"
 #define COMMAND_SETUP -666713357
 #define COMMAND_ZIP -1877840
 #define COMMAND_SPRITES -468740822
@@ -47,7 +48,7 @@ int main() {
 			"setup\t- Change the PK2 path\n"
 			"zip\t- Create an episode .zip\n"
 			"sprites\t- Display all information about a .spr file\n"
-			"levels\t- Display all information about a .map file"
+			"levels\t- Display all information about a .map file\n"
 			//"online\t- Show all mapstore related commands\n"
 			"log\t- Save a .txt of all previous events\n"
 			"info\t- Show basic information about the program\n"
@@ -70,6 +71,10 @@ int main() {
 			}
 			case COMMAND_SPRITES: {
 				PCALL(startspriter);
+				break;
+			}
+			case COMMAND_LEVELS: {
+				PCALL(startleveler);
 				break;
 			}
 			case COMMAND_ONLINE: {

@@ -5,7 +5,8 @@ zlib1.dll
 MultiPekka.path
 jorma possu.zip
 build/
-compile.bat
+build.bat
 mapstore/node.exe
 mapstore/node_modules/
 mapstore/
+.vscode/
