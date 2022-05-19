@@ -8,6 +8,7 @@
 #define COMMAND_SETUP -666713357
 #define COMMAND_ZIP -1877840
 #define COMMAND_SPRITES -468740822
+#define COMMAND_LEVELS -1348557156
 #define COMMAND_ONLINE -6603339
 #define COMMAND_LOG -1731409
 #define COMMAND_INFO -237985200
@@ -46,6 +47,7 @@ int main() {
 			"setup\t- Change the PK2 path\n"
 			"zip\t- Create an episode .zip\n"
 			"sprites\t- Display all information about a .spr file\n"
+			"levels\t- Display all information about a .map file"
 			//"online\t- Show all mapstore related commands\n"
 			"log\t- Save a .txt of all previous events\n"
 			"info\t- Show basic information about the program\n"
@@ -78,7 +80,7 @@ int main() {
 					system(".\\mapstore\\node.exe mapstore\\mapstore.js");
 					system("color 0f");	
 				})*/
-				consolelog("\nYou'll have to wait for this\n");
+				consolelog("\nThis feature is probably never coming.\n");
 				system("pause");
 				break;
 			}
@@ -104,7 +106,7 @@ int main() {
 				break;
 			}
 			case COMMAND_INFO: {
-				consolelog("MultiPekka v1.4.1\n"
+				consolelog("MultiPekka v1.5\n"
 					"Created by Maiori\n"
 					"Github: https://github.com/Felix-44/MultiPekka\n\n");
 				system("pause");
