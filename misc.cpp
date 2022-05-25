@@ -23,12 +23,12 @@ void consolelog(const char *text, ...) {
 }
 
 struct error {
-  int code;
-  const char *msg;
-  error(const char *msg, int code) :
-    msg(msg),
-    code(code)
-  {}
+	int code;
+	const char *msg;
+	error(const char *msg, int code) :
+		msg(msg),
+		code(code)
+	{}
 };
 
 char asciitolower(char in) {
