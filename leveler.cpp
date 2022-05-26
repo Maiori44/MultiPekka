@@ -22,4 +22,18 @@ void startleveler() {
 			}
 		}
 	}
+	if (mapfiles.empty())
+		throw "No maps found!";
+	while (true) {
+		std::string filename = mapfiles[vectorpos];
+		FILE *mapfile = fopen(std::string(episodepath + "/" + filename).c_str(), "rb");
+		system("cls");
+		consolelog("File:\t\t\t%s [%d/%d]\n", filename.c_str(), vectorpos + 1, static_cast<int>(mapfiles.size()));
+		if (mapfile == NULL)
+			consolelog("\nFailed to open file!");
+		else {
+			consolelog("Placeholder\n");
+		}
+		consolelog("\n\nControls")
+	}
 }
