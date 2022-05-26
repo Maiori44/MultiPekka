@@ -37,7 +37,7 @@ void startspriter() {
 	}
 	//check if there were any sprites found
 	if (sprfiles.empty()) {
-		throw error("No sprites found!", ERROR_NOSPRITESFOUND);
+		throw "No sprites found!";
 	}
 	//enter the loop
 	while (true) {
@@ -94,7 +94,7 @@ void startspriter() {
 				for (int i = 0; i < static_cast<int>(sprfiles.size()); i++) {
 					FILE *filetocheck = fopen(std::string(path + "/sprites/" + sprfiles[i]).c_str(), "rb");
 					if (filetocheck == NULL) {
-						throw error(("Failed to open file \"" + sprfiles[i] + "\"").c_str(), ERROR_FILENOTFOUND);
+						throw ("Failed to open file \"" + sprfiles[i] + "\"").c_str();
 					} else if (pkread(0x0, 3, filetocheck) != "1.3") continue;
 					check = std::string(checkfile(pkread(0x8, 32, filetocheck))) +
 							checkfile(pkread(0x6C, 32, filetocheck)) +

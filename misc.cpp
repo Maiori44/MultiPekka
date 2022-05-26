@@ -5,12 +5,6 @@
 #include <dirent.h>
 #define CHOICE_YES -1926432
 #define CHOICE_NO -14561
-#define ERROR_FOLDERNOTFOUND 1			//whatever folder the program tried to open is missing
-#define ERROR_CANTCREATEZIP 2			//failed to create the zip file
-#define ERROR_ABORTDUEOVERWRITE 3		//you didn't want to overwrite a zip
-#define ERROR_FILENOTFOUND 4			//a generic file was not found
-#define ERROR_NOSPRITESFOUND 5			//you don't have any .spr file in your pk2 somehow
-#define ERROR_INVALIDSPRITEVERSION 6	//the .spr file is not version 1.3
 
 std::string path;
 FILE *templog;
@@ -21,15 +15,6 @@ void consolelog(const char *text, ...) {
 	vfprintf(stdout, text, args);
 	vfprintf(templog, text, args);
 }
-
-struct error {
-	int code;
-	const char *msg;
-	error(const char *msg, int code) :
-		msg(msg),
-		code(code)
-	{}
-};
 
 char asciitolower(char in) {
 	if (in <= 'Z' && in >= 'A')
@@ -81,7 +66,7 @@ DIR *openpkdir(const char *path) {
 		errormsg.append("The folder \"");
 		errormsg.append(path);
 		errormsg.append("\" was not found");
-		throw error(errormsg.c_str(), ERROR_FOLDERNOTFOUND);
+		throw errormsg.c_str();
 	}
 	return directory;
 }

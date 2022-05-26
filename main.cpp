@@ -15,7 +15,7 @@
 #define COMMAND_INFO -237985200
 #define COMMAND_EXIT -248500869
 #define COMMAND_DEBUG 1740352334
-#define PCALL(function) try {function();} catch(error thrownerror) {consolelog("\nAn error accoured!\nError: %s\nError code: %d\n%s", thrownerror.msg, thrownerror.code, debugmsg != "" ? std::string("File: " + debugmsg + " (this error seems to have been caused by this file, checking it might help you fix the issue)\n").c_str() : ""); system("pause");}
+#define PCALL(function) try {function();} catch(const char *thrownerror) {consolelog("\nAn error accoured!\nError: %s\n%s", thrownerror, debugmsg != "" ? std::string("File: " + debugmsg + " (this error seems to have been caused by this file, checking it might help you fix the issue)\n").c_str() : ""); system("pause");}
 
 int intaction;
 FILE *pathfile;
@@ -113,7 +113,7 @@ int main() {
 			case COMMAND_INFO: {
 				consolelog("MultiPekka v1.5\n"
 					"Created by Maiori\n"
-					"Github: https://github.com/Felix-44/MultiPekka\n\n");
+					"Github: https://github.com/Maiori44/MultiPekka\n\n");
 				system("pause");
 				break;
 			}
