@@ -1,16 +1,8 @@
 #include <vector>
 #include <conio.h>
 #include <stdint.h>
-#define ARROW_RIGHT 77
-#define ARROW_LEFT 75
-#define CHAR_ARROW 224
-#define CHAR_SEARCH 115
-#define CHAR_FINDBROKEN 102
-#define CHAR_LEVELSEARCH 108
-#define CHAR_ESC 27
 
 std::vector<std::string> sprfiles;
-int vectorpos;
 
 const char *checkfile(std::string filename) {
 	return access(std::string(path + "/Sprites/" + filename).c_str(), F_OK) == 0 ?

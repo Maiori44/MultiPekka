@@ -5,9 +5,17 @@
 #include <dirent.h>
 #define CHOICE_YES -1926432
 #define CHOICE_NO -14561
+#define ARROW_RIGHT 77
+#define ARROW_LEFT 75
+#define CHAR_ARROW 224
+#define CHAR_SEARCH 115
+#define CHAR_FINDBROKEN 102
+#define CHAR_LEVELSEARCH 108
+#define CHAR_ESC 27
 
 std::string path;
 FILE *templog;
+int vectorpos;
 
 void consolelog(const char *text, ...) {
 	va_list args;
