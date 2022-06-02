@@ -9,7 +9,7 @@
 #define COMMAND_SETUP -666713357
 #define COMMAND_ZIP -1877840
 #define COMMAND_SPRITES -468740822
-#define COMMAND_LEVELS -1348557156
+#define COMMAND_MAPS -246519326
 #define COMMAND_ONLINE -6603339
 #define COMMAND_LOG -1731409
 #define COMMAND_INFO -237985200
@@ -73,7 +73,7 @@ int main() {
 				PCALL(startspriter);
 				break;
 			}
-			case COMMAND_LEVELS: {
+			case COMMAND_MAPS: {
 				PCALL(startleveler);
 				break;
 			}
