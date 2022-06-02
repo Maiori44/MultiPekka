@@ -58,12 +58,12 @@ void startspriter() {
 			fclose(sprfile);
 		}
 		consolelog("\n\nControls:\n"
-				"[<-]\t- load previous sprite\n"
-				"[->]\t- load next sprite\n"
-				"[S]\t- search for a specific sprite\n"
-				"[F]\t- find a broken sprite\n"
-				"[L]\t- show a list of all levels that use this sprite\n"
-				"[ESC]\t- end operation\n\n");
+				"[<-]\t- Load previous sprite\n"
+				"[->]\t- Load next sprite\n"
+				"[S]\t- Search for a specific sprite\n"
+				"[F]\t- Find a broken sprite\n"
+				"[L]\t- Show a list of all levels that use this sprite\n"
+				"[ESC]\t- End operation\n\n");
 		input:
 		//get an input and do accordingly
 		switch (getch()) {
