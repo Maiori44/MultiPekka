@@ -4,12 +4,6 @@
 
 std::vector<std::string> sprfiles;
 
-const char *checkfile(std::string filename) {
-	return access(std::string(path + "/Sprites/" + filename).c_str(), F_OK) == 0 ?
-		filename.c_str() :
-		std::string(filename + "\t<MISSING!>").c_str();
-}
-
 void startspriter() {
 	//reset the vector
 	sprfiles.clear();
@@ -45,16 +39,16 @@ void startspriter() {
 		} else {
 			//write all the sprite's info
 			consolelog("Name:\t\t\t%s\n", pkread(0x44C, 32, sprfile).c_str());
-			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checkfile(pkread(0x8, 32, sprfile)));
-			consolelog("Damage Sound:\t\t%s\n", checkfile(pkread(0x6C, 32, sprfile)));
-			consolelog("KO Sound:\t\t%s\n", checkfile(pkread(0xD0, 32, sprfile)));
-			consolelog("Attack 1 Sound:\t\t%s\n", checkfile(pkread(0x134, 32, sprfile)));
-			consolelog("Attack 2 Sound:\t\t%s\n", checkfile(pkread(0x198, 32, sprfile)));
-			consolelog("Random Sound:\t\t%s\n\n- Sprites -\n", checkfile(pkread(0x1FC, 32, sprfile)));
-			consolelog("Transformation Sprite:\t%s\n", checkfile(pkread(0x4E0, 32, sprfile)));
-			consolelog("Bonus Sprite:\t\t%s\n", checkfile(pkread(0x544, 32, sprfile)));
-			consolelog("Attack 1 Sprite:\t%s\n", checkfile(pkread(0x5A8, 32, sprfile)));
-			consolelog("Attack 2 Sprite:\t%s\n", checkfile(pkread(0x60C, 32, sprfile)));
+			consolelog("Image:\t\t\t%s\n\n- Sounds -\n", checksprfile(pkread(0x8, 32, sprfile)));
+			consolelog("Damage Sound:\t\t%s\n", checksprfile(pkread(0x6C, 32, sprfile)));
+			consolelog("KO Sound:\t\t%s\n", checksprfile(pkread(0xD0, 32, sprfile)));
+			consolelog("Attack 1 Sound:\t\t%s\n", checksprfile(pkread(0x134, 32, sprfile)));
+			consolelog("Attack 2 Sound:\t\t%s\n", checksprfile(pkread(0x198, 32, sprfile)));
+			consolelog("Random Sound:\t\t%s\n\n- Sprites -\n", checksprfile(pkread(0x1FC, 32, sprfile)));
+			consolelog("Transformation Sprite:\t%s\n", checksprfile(pkread(0x4E0, 32, sprfile)));
+			consolelog("Bonus Sprite:\t\t%s\n", checksprfile(pkread(0x544, 32, sprfile)));
+			consolelog("Attack 1 Sprite:\t%s\n", checksprfile(pkread(0x5A8, 32, sprfile)));
+			consolelog("Attack 2 Sprite:\t%s\n", checksprfile(pkread(0x60C, 32, sprfile)));
 			fclose(sprfile);
 		}
 		consolelog("\n\nControls:\n"
@@ -88,16 +82,16 @@ void startspriter() {
 					if (filetocheck == NULL) {
 						throw ("Failed to open file \"" + sprfiles[i] + "\"").c_str();
 					} else if (pkread(0x0, 3, filetocheck) != "1.3") continue;
-					check = std::string(checkfile(pkread(0x8, 32, filetocheck))) +
-							checkfile(pkread(0x6C, 32, filetocheck)) +
-							checkfile(pkread(0xD0, 32, filetocheck)) +
-							checkfile(pkread(0x134, 32, filetocheck)) +
-							checkfile(pkread(0x198, 32, filetocheck)) +
-							checkfile(pkread(0x1FC, 32, filetocheck)) +
-							checkfile(pkread(0x4E0, 32, filetocheck)) +
-							checkfile(pkread(0x544, 32, filetocheck)) +
-							checkfile(pkread(0x5A8, 32, filetocheck)) +
-							checkfile(pkread(0x60C, 32, filetocheck));
+					check = std::string(checksprfile(pkread(0x8, 32, filetocheck))) +
+							checksprfile(pkread(0x6C, 32, filetocheck)) +
+							checksprfile(pkread(0xD0, 32, filetocheck)) +
+							checksprfile(pkread(0x134, 32, filetocheck)) +
+							checksprfile(pkread(0x198, 32, filetocheck)) +
+							checksprfile(pkread(0x1FC, 32, filetocheck)) +
+							checksprfile(pkread(0x4E0, 32, filetocheck)) +
+							checksprfile(pkread(0x544, 32, filetocheck)) +
+							checksprfile(pkread(0x5A8, 32, filetocheck)) +
+							checksprfile(pkread(0x60C, 32, filetocheck));
 					fclose(filetocheck);
 					if (check.find("<MISSING!>") != check.npos) {
 						found = true;

@@ -93,3 +93,13 @@ DIR *openpkdir(const char *path) {
 	}
 	return directory;
 }
+
+const char *checkfile(std::string filename, const char *path2) {
+	return access(std::string(path + path2 + filename).c_str(), F_OK) == 0
+		? filename.c_str()
+		: std::string(filename + "\t<MISSING!>").c_str();
+}
+
+const char *checksprfile(std::string filename) {
+	return checkfile(filename, "/Sprites/");
+}
