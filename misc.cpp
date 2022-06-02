@@ -54,12 +54,27 @@ std::string getfullinput(const char *toprint) {
 	return inputstring;
 }
 
+std::string cpkread(int offset, int length, int end, FILE *file) {
+	fseek(file, offset, SEEK_SET);
+	std::string result;
+	for (int i = 1; i <= length; i++) {
+		int byte = fgetc(file);
+		if (byte == end or byte == EOF or byte == 0)
+			break;
+		char crt[2];
+		sprintf(crt, "%c", byte);
+		result.append(crt);
+	}
+	return result;
+}
+
 std::string pkread(int offset, int length, FILE *file) {
 	fseek(file, offset, SEEK_SET);
 	std::string result;
-	for(int i = 1; i <= length; i++) {
+	for (int i = 1; i <= length; i++) {
 		int byte = fgetc(file);
-		if (byte == 0 or byte == EOF) break;
+		if (byte == 0 or byte == EOF)
+			break;
 		char crt[2];
 		sprintf(crt, "%c", byte);
 		result.append(crt);
