@@ -48,7 +48,7 @@ int main() {
 			"setup\t- Change the PK2 path\n"
 			"zip\t- Create an episode .zip\n"
 			"sprites\t- Display all information about a .spr file\n"
-			"levels\t- Display all information about a .map file\n"
+			"maps\t- Display all information about a .map file\n"
 			//"online\t- Show all mapstore related commands\n"
 			"log\t- Save a .txt of all previous events\n"
 			"info\t- Show basic information about the program\n"
