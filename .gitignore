@@ -10,3 +10,4 @@ mapstore/node.exe
 mapstore/node_modules/
 mapstore/
 .vscode/
+templog
